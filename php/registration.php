@@ -32,19 +32,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         $conn = $db->getConnection();
 
         if (!$conn) {
-            // Provide stored DB error if available
+            
             $dbError = method_exists($db, 'getLastError') ? $db->getLastError() : null;
             $errors[] = "Database connection failed" . ($dbError ? ": " . $dbError : "");
         } else {
             try {
-                // check if email already exists
+               
                 $stmt = $conn->prepare("SELECT id FROM user WHERE email = ? LIMIT 1");
                 $stmt->execute([$email]);
                 if ($stmt->fetch()) {
                     $errors[] = "Email is already registered";
                 } else {
                     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-                    // use column name 'name' to match your table columns (id, name, email, password)
+                  
                     $stmt = $conn->prepare("INSERT INTO user (name, email, password) VALUES (?, ?, ?)");
                     $ok = $stmt->execute([$fullName, $email, $hashedPassword]);
                     if ($ok && $stmt->rowCount() > 0) {
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                     }
                 }
             } catch (PDOException $e) {
-                // Provide friendly guidance for common schema errors
+               
                 $msg = $e->getMessage();
                 $code = $e->getCode();
                 if (stripos($msg, 'Base table or view not found') !== false || stripos($msg, 'doesn\'t exist') !== false) {

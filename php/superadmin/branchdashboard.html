@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Branch Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../../css/superadmin/dashboard.css" />
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="sidebar" id="sidebar">
+            <div class="company-name">Labady</div>
+            <a href="dashboard.html" class="menu-item">🏠 Dashboard</a>
+            <a href="branchdashboard.html" class="menu-item active">📍 Branch Dashboard</a>
+            <div class="menu-item active">🚪 Log Out</div>
+
+        </div>
+
+
+        <div class="main-content" id="mainContent">
+            <div class="header">
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <button class="burger-btn" id="burgerBtn" onclick="toggleSidebar()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <h1 class="dashboard-title">Branch Dashboard</h1>
+                </div>
+                <div class="user-info">
+                    <div style="text-align: right;">
+                        <div style="font-size: 14px; font-weight: 600;">Account Name</div>
+                        <div style="font-size: 12px; color: #666;">Admin</div>
+                    </div>
+                    <div class="user-avatar" onclick="window.location.href='userprofile.html'"></div>
+                </div>
+            </div>
+
+
+            <div class="chart-container">
+                <div class="chart-title">Laundry Volume by Weight (Weekly)</div>
+                <canvas id="laundryWeightChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Pick Up Status</div>
+                <canvas id="pickUpChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const mainContent = document.getElementById("mainContent");
+            const burgerBtn = document.getElementById("burgerBtn");
+
+            sidebar.classList.toggle("closed");
+            mainContent.classList.toggle("expanded");
+            burgerBtn.classList.toggle("active");
+        }
+
+
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const burgerBtn = document.getElementById('burgerBtn');
+
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(event.target) && !burgerBtn.contains(event.target)) {
+                    sidebar.classList.add('closed');
+                    document.getElementById('mainContent').classList.add('expanded');
+                    burgerBtn.classList.remove('active');
+                }
+            }
+        });
+
+
+        const ctx1 = document.getElementById("laundryWeightChart").getContext("2d");
+        new Chart(ctx1, {
+            type: "line",
+            data: {
+                labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                datasets: [{
+                    label: "Weight (kg)",
+                    data: [145, 180, 220, 195, 250, 310, 280],
+                    borderColor: "#2196F3",
+                    backgroundColor: "rgba(33, 150, 243, 0.2)",
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 6,
+                    pointBackgroundColor: "#2196F3",
+                    pointBorderColor: "#fff",
+                    pointBorderWidth: 2,
+                    pointHoverRadius: 8,
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Kilograms (kg)',
+                            font: {
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)',
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false,
+                        }
+                    }
+                },
+            },
+        });
+
+
+        const ctx2 = document.getElementById("pickUpChart").getContext("2d");
+        new Chart(ctx2, {
+            type: "bar",
+            data: {
+                labels: ["Completed", "Pending", "Delay", "In Process"],
+                datasets: [{
+                    label: "Number of Orders",
+                    data: [18500, 8000, 9500, 16000],
+                    backgroundColor: [
+                        "#4CAF50",
+                        "#FFC107",
+                        "#F44336",
+                        "#3F51B5"
+                    ],
+                    borderRadius: 8,
+                    borderWidth: 2,
+                    borderColor: "#fff",
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)',
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false,
+                        }
+                    }
+                },
+            },
+        });
+    </script>
+</body>
+
+</html>

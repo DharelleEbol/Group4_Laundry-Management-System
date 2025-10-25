@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../../css/superadmin/dashboard.css" />
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="sidebar" id="sidebar">
+            <div class="company-name">Labady</div>
+            <a href="dashboard.html" class="menu-item">🏠 Dashboard</a>
+            <a href="branchdashboard.html" class="menu-item active">📍 Branch Dashboard</a>
+            <a href="logIn.php" class="menu-item active">🚪 Log Out</a>
+        </div>
+
+
+        <div class="main-content" id="mainContent">
+            <div class="header">
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <button class="burger-btn" id="burgerBtn" onclick="toggleSidebar()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <h1 class="dashboard-title">Dashboard</h1>
+                </div>
+                <div class="user-info">
+                    <div style="text-align: right;">
+                        <div style="font-size: 14px; font-weight: 600;">Account Name</div>
+                        <div style="font-size: 12px; color: #666;">Admin</div>
+                    </div>
+                    <div class="user-avatar" onclick="window.location.href='userprofile.html'"></div>
+                </div>
+            </div>
+
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-label">Total Sales</div>
+                    <div class="stat-value">₱10,505</div>
+                </div>
+                <div class="stat-card highlighted">
+                    <div class="stat-label">Total Orders</div>
+                    <div class="stat-value">1,521</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Pick-up Rate</div>
+                    <div class="stat-value">92.3%</div>
+                </div>
+            </div>
+
+
+            <div class="chart-container">
+                <div class="chart-title">Revenue Trends</div>
+                <canvas id="revenueChart"></canvas>
+            </div>
+
+
+            <div class="table-container">
+                <div class="chart-title">Recent Transactions</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Receipt ID</th>
+                            <th>Customer</th>
+                            <th>Amount (₱)</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>TX-00123</td>
+                            <td>Juan Dela Cruz</td>
+                            <td>1,250.00</td>
+                            <td>Oct 20, 2025</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>TX-00124</td>
+                            <td>Maria Santos</td>
+                            <td>870.00</td>
+                            <td>Oct 21, 2025</td>
+                            <td>Pending</td>
+                        </tr>
+                        <tr>
+                            <td>TX-00125</td>
+                            <td>Jose Ramirez</td>
+                            <td>1,050.00</td>
+                            <td>Oct 22, 2025</td>
+                            <td>Completed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const mainContent = document.getElementById("mainContent");
+            const burgerBtn = document.getElementById("burgerBtn");
+
+            sidebar.classList.toggle("closed");
+            mainContent.classList.toggle("expanded");
+            burgerBtn.classList.toggle("active");
+        }
+
+
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const burgerBtn = document.getElementById('burgerBtn');
+
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(event.target) && !burgerBtn.contains(event.target)) {
+                    sidebar.classList.add('closed');
+                    document.getElementById('mainContent').classList.add('expanded');
+                    burgerBtn.classList.remove('active');
+                }
+            }
+        });
+
+        const ctx1 = document.getElementById("revenueChart").getContext("2d");
+        new Chart(ctx1, {
+            type: "line",
+            data: {
+                labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                datasets: [{
+                    label: "Revenue",
+                    data: [4000, 5000, 7500, 7000, 8500, 9000, 9500],
+                    borderColor: "#2196F3",
+                    backgroundColor: "rgba(33, 150, 243, 0.2)",
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointBackgroundColor: "#2196F3",
+                    pointBorderColor: "#fff",
+                    pointBorderWidth: 2,
+                    pointHoverRadius: 7,
+                }, ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)',
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false,
+                        }
+                    }
+                },
+            },
+        });
+    </script>
+</body>
+
+</html>
