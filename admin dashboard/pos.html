@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>POS</title><link rel="stylesheet" href="css/style.css"/></head><body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand"><div class="logo">AD</div><div><h1>Company name</h1></div></div>
+      <nav class="nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a class="active" href="pos.html">POS</a>
+        <a href="inventory.html">Inventory Management</a>
+        <a href="receipt.html">Receipt Management</a>
+        <a href="index.html">Log Out</a>
+      </nav>
+    </aside>
+    <main class="main">
+      <header class="topbar"><div class="title">POS</div><div class="search"><input placeholder="Search items..." /></div><div class="profile"><img src="assets/avatar.svg"/><div style="font-weight:800">Admin</div></div></header>
+      <section class="container-card pos-layout">
+        <div class="pos-left">
+          <div class="search-bar"><input placeholder="Search..." style="width:100%;border:0;outline:none;font-size:14px"/></div>
+          <div style="background:#fff;border-radius:10px;padding:12px;border:1px solid rgba(12,18,44,0.04)">
+            <h4 style="margin-bottom:8px">Service Items</h4>
+            <div class="service-grid">
+              <div class="service-item"><img src="assets/avatar.svg"/><div style="font-weight:700">Clothes</div><div style="font-size:13px;color:var(--muted)">₱25.00 per kilo</div></div>
+              <div class="service-item"><img src="assets/avatar.svg"/><div style="font-weight:700">Pants</div><div style="font-size:13px;color:var(--muted)">₱25.00 per kilo</div></div>
+              <div class="service-item"><img src="assets/avatar.svg"/><div style="font-weight:700">Comforter</div><div style="font-size:13px;color:var(--muted)">₱35.00 per kilo</div></div>
+              <div class="service-item"><img src="assets/avatar.svg"/><div style="font-weight:700">Curtains</div><div style="font-size:13px;color:var(--muted)">₱25.00 per kilo</div></div>
+              <div class="service-item"><img src="assets/avatar.svg"/><div style="font-weight:700">Mix Clothes</div><div style="font-size:13px;color:var(--muted)">₱25.00 per kilo</div></div>
+              <div class="service-item"><img src="assets/avatar.svg"/><div style="font-weight:700">Blanket</div><div style="font-size:13px;color:var(--muted)">₱30.00 per kilo</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pos-right">
+          <div class="box">
+            <div style="display:flex;gap:8px;align-items:center">
+              <input class="input" placeholder="Search Customer..." style="flex:1"/>
+              <button class="btn secondary">Add customer</button>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <input class="input" placeholder="RCPT-1200" style="flex:1"/>
+              <input class="input" type="date" style="width:140px"/>
+            </div>
+            <div style="margin-top:8px">
+              <input class="input" placeholder="Name" />
+              <input class="input" placeholder="Address" />
+              <input class="input" placeholder="Phone Number" />
+            </div>
+          </div>
+
+          <div class="box" style="padding:8px">
+            <table class="table">
+              <thead><tr><th>Service</th><th>Rate</th><th>Kilogram</th></tr></thead>
+              <tbody>
+                <tr><td>Clothes</td><td>₱25.00</td><td>2</td></tr>
+                <tr><td>Pants</td><td>₱25.00</td><td>2</td></tr>
+              </tbody>
+            </table>
+            <div style="margin-top:8px" class="kv"><div>Subtotal</div><div>₱200.00</div></div>
+            <div style="margin-top:4px" class="kv"><div>Extras</div><div>₱0.00</div></div>
+            <div style="margin-top:4px;font-weight:800" class="kv"><div>Total Payment</div><div>₱200.00</div></div>
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="btn secondary" style="flex:1">Payment method</button>
+              <button class="btn secondary" style="flex:1">Clear</button>
+            </div>
+            <div style="margin-top:10px"><button class="complete-btn" style="width:100%">Complete and Save Transaction</button></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body></html>

@@ -1,0 +1,69 @@
+
+:root{
+  --bg-start:#dff3ff;
+  --bg-end:#eaf7ff;
+  --card:#ffffff;
+  --muted:#6f7a8a;
+  --accent:#2f5fd6;
+  --accent-2:#7ad3ff;
+  --text:#0f1724;
+  --sidebar-width:240px;
+  --radius:12px;
+  font-family: "Inter", "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:linear-gradient(180deg,var(--bg-start),var(--bg-end));color:var(--text)}
+a{color:inherit;text-decoration:none}
+.app{display:flex;min-height:100vh;gap:20px;padding:20px}
+.sidebar{width:var(--sidebar-width);background:linear-gradient(180deg,#f7fbff, #eef7ff);border-radius:12px;padding:22px;box-shadow:0 6px 18px rgba(12,18,44,0.04);border:1px solid rgba(12,18,44,0.03)}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+.brand h1{font-size:16px}
+.nav{display:flex;flex-direction:column;gap:8px}
+.nav a{padding:12px;border-radius:8px;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:10px}
+.nav a.active{background:#ffffff;border-left:4px solid var(--accent);color:var(--accent);box-shadow:0 4px 10px rgba(12,18,44,0.03)}
+
+/* Main area */
+.main{flex:1;display:flex;flex-direction:column;gap:16px}
+.topbar{display:flex;align-items:center;gap:12px;padding:10px 12px}
+.topbar .title{font-size:18px;font-weight:800}
+.search input{padding:10px 12px;border-radius:8px;border:1px solid rgba(12,18,44,0.06);min-width:300px}
+.profile{margin-left:auto;display:flex;align-items:center;gap:10px}
+.profile img{width:40px;height:40px;border-radius:999px;background:#fff;padding:4px}
+
+/* Content cards */
+.container-card{background:linear-gradient(180deg,#fff,#f7fbff);border-radius:12px;padding:12px;border:1px solid rgba(12,18,44,0.04);box-shadow:0 8px 24px rgba(12,18,44,0.04)}
+
+/* POS layout specifics */
+.pos-layout{display:grid;grid-template-columns:1fr 420px;gap:18px;align-items:start}
+.pos-left{display:flex;flex-direction:column;gap:12px}
+.search-bar{padding:10px;border-radius:8px;border:1px solid rgba(12,18,44,0.06);background:#fff}
+.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+.service-item{background:linear-gradient(180deg,#fff,#f2f8ff);border-radius:8px;padding:12px;text-align:center;border:1px solid rgba(12,18,44,0.04)}
+.service-item img{width:48px;height:48px;margin-bottom:8px}
+
+/* Right panel */
+.pos-right{width:420px;display:flex;flex-direction:column;gap:10px}
+.box{background:#fff;border-radius:8px;padding:10px;border:1px solid rgba(12,18,44,0.06)}
+.input{width:100%;padding:10px;border-radius:6px;border:1px solid rgba(12,18,44,0.06);margin-bottom:8px}
+.small-row{display:flex;gap:8px;align-items:center}
+.kv{display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid rgba(12,18,44,0.04)}
+.kv:first-child{border-top:none}
+.table{width:100%;border-collapse:collapse;margin-top:8px}
+.table th{font-size:13px;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid rgba(12,18,44,0.04)}
+.table td{padding:8px;border-bottom:1px solid rgba(12,18,44,0.04);font-size:14px}
+.btn{display:inline-block;padding:10px 14px;border-radius:8px;background:var(--accent);color:#fff;font-weight:700;border:none;cursor:pointer}
+.btn.secondary{background:#eef6ff;color:var(--accent);border:1px solid rgba(12,18,44,0.04)}
+
+.complete-btn{background:linear-gradient(180deg,#0b4db8,#0a3f93);padding:12px;border-radius:10px;color:#fff;font-weight:800;border:none;box-shadow:0 6px 14px rgba(10,40,120,0.18)}
+
+/* Modal styles (floating) */
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;padding:16px;border-radius:8px;box-shadow:0 12px 40px rgba(12,18,44,0.2);z-index:60;width:420px;border:1px solid rgba(12,18,44,0.06)}
+.modal .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+
+/* responsive */
+@media (max-width:980px){
+  .pos-layout{grid-template-columns:1fr;gap:12px}
+  .sidebar{display:none}
+  .search input{min-width:120px}
+}

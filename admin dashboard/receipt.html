@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Receipt</title><link rel="stylesheet" href="css/style.css"/></head><body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand"><div class="logo">AD</div><div><h1>Company name</h1></div></div>
+      <nav class="nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="pos.html">POS</a>
+        <a href="inventory.html">Inventory Management</a>
+        <a class="active" href="receipt.html">Receipt Management</a>
+        <a href="index.html">Log Out</a>
+      </nav>
+    </aside>
+    <main class="main">
+      <header class="topbar"><div class="title">Receipt Management</div><div class="search"><input placeholder="Search receipts..." /></div><div class="profile"><img src="assets/avatar.svg"/><div style="font-weight:800">Admin</div></div></header>
+      <section style="padding:12px">
+        <div class="container-card">
+          <table class="table">
+            <thead><tr><th>Receipt</th><th>Customer</th><th>Date</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>RCP-120</td><td>Shadia</td><td>2025-10-01</td><td>₱120</td><td style="color:green">Paid</td></tr>
+              <tr><td>RCP-121</td><td>Dhar</td><td>2025-10-02</td><td>₱250</td><td style="color:orange">Pending</td></tr>
+              <tr><td>RCP-122</td><td>Erick</td><td>2025-10-03</td><td>₱320</td><td style="color:red">Cancelled</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</body></html>
