@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Receipt Management</title>
+    <link rel="stylesheet" href="../../css/superadmin/transaction.css" />
+</head>
+
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="company-name">Labady</div>
+        <a href="dashboard.html" class="menu-item">🏠 Dashboard</a>
+        <a href="branchdashboard.html" class="menu-item">📍 Branch Dashboard</a>
+        <a href="transactionhistory.html" class="menu-item active">📋 Transaction History</a>
+        <a href="logIn.php" class="menu-item">🚪 Log Out</a>
+    </div>
+
+    <div class="main-wrapper" id="mainWrapper">
+        <div class="header">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <button class="burger-btn" id="burgerBtn" onclick="toggleSidebar()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <h1 class="dashboard-title">Transaction History</h1>
+            </div>
+            <div class="user-info">
+                <div style="text-align: right;">
+                    <div style="font-size: 14px; font-weight: 600;">Account Name</div>
+                    <div style="font-size: 12px; color: #666;">Admin</div>
+                </div>
+                <div class="user-avatar" onclick="window.location.href='userprofile.html'"></div>
+            </div>
+        </div>
+
+        <div class="container">
+            <h1>Receipt Management</h1>
+
+            <div class="filters">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search by receipt number, customer name...">
+                </div>
+                <select id="paymentFilter">
+                    <option value="all">All Payments</option>
+                    <option value="paid">Paid</option>
+                    <option value="unpaid">Unpaid</option>
+                </select>
+                <select id="statusFilter">
+                    <option value="all">All Laundry Status</option>
+                    <option value="in-shop">In-shop</option>
+                    <option value="picked-up">Picked Up</option>
+                </select>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="receiptTable">
+                    <thead>
+                        <tr>
+                            <th>Receipt ID</th>
+                            <th>Name</th>
+                            <th>Item Type</th>
+                            <th>Service Type</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                            <th>Penalty</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Table rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination-container">
+                <div class="pagination-info" id="paginationInfo"></div>
+                <div class="pagination-controls">
+                    <button class="pagination-btn" id="prevBtn" onclick="prevPage()">← Previous</button>
+                    <div class="page-numbers" id="pageNumbers"></div>
+                    <button class="pagination-btn" id="nextBtn" onclick="nextPage()">Next →</button>
+                </div>
+                <div class="rows-per-page">
+                    <span>Rows per page:</span>
+                    <select id="rowsPerPage" onchange="changeRowsPerPage()">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="receiptModal">
+        <div class="modal-content">
+            <h2>Receipt Details</h2>
+            <div class="detail-row">
+                <span class="detail-label">Receipt ID:</span>
+                <span class="detail-value" id="modalReceiptId">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Name:</span>
+                <span class="detail-value" id="modalName">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Item:</span>
+                <span class="detail-value" id="modalItem">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Laundry Type:</span>
+                <span class="detail-value" id="modalLaundryType">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Quantity:</span>
+                <span class="detail-value" id="modalQuantity">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Price:</span>
+                <span class="detail-value" id="modalPrice">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Penalty:</span>
+                <span class="detail-value" id="modalPenalty">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Payment Status:</span>
+                <span class="detail-value" id="modalPaymentStatus">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Laundry Status:</span>
+                <span class="detail-value" id="modalLaundryStatus">-</span>
+            </div>
+            <button class="btn-close" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const receipts = [{
+            id: 'RCPT-01933',
+            name: 'Johnny',
+            item: 'Blanket',
+            type: 'Wash-and-fold',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Paid',
+            status: 'In-shop',
+            date: '11/8/2025'
+        }, {
+            id: 'RCPT-01334',
+            name: 'Ana Marie',
+            item: 'Clothes',
+            type: 'Wash-and-fold',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Paid',
+            status: 'In-shop',
+            date: '11/11/2025'
+        }, {
+            id: 'RCPT-03245',
+            name: 'Ashley',
+            item: 'Pants',
+            type: 'Dry-cleaning',
+            qty: 1,
+            price: 100,
+            penalty: 50,
+            payment: 'Unpaid',
+            status: 'In-shop',
+            date: '11/1/2025'
+        }, {
+            id: 'RCPT-19934',
+            name: 'Kai Curtis',
+            item: 'Curtains',
+            type: 'Dry-cleaning',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Paid',
+            status: 'Picked Up',
+            date: '11/8/2025'
+        }, {
+            id: 'RCPT-10209',
+            name: 'Skylar',
+            item: 'Comforter',
+            type: 'Wash-and-fold',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Paid',
+            status: 'In-shop',
+            date: '11/8/2025'
+        }, {
+            id: 'RCPT-13843',
+            name: 'Rowan Ismail',
+            item: 'Blanket',
+            type: 'Wash-and-fold',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Paid',
+            status: 'Picked Up',
+            date: '11/8/2025'
+        }, {
+            id: 'RCPT-23343',
+            name: 'Benjamin',
+            item: 'Blanket',
+            type: 'Wash-and-fold',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Unpaid',
+            status: 'In-shop',
+            date: '11/8/2025'
+        }, {
+            id: 'RCPT-34902',
+            name: 'Luna',
+            item: 'Mix-Clothes',
+            type: 'Wash-and-fold',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Paid',
+            status: 'In-shop',
+            date: '11/8/2025'
+        }, {
+            id: 'RCPT-23913',
+            name: 'Johnny',
+            item: 'Blanket',
+            type: 'Dry-cleaning',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Paid',
+            status: 'In-shop',
+            date: '11/8/2025'
+        }, {
+            id: 'RCPT-23344',
+            name: 'Maria Santos',
+            item: 'Clothes',
+            type: 'Wash-and-fold',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Paid',
+            status: 'In-shop',
+            date: '11/11/2025'
+        }, {
+            id: 'RCPT-23345',
+            name: 'Juan Cruz',
+            item: 'Bedsheet',
+            type: 'Wash-and-fold',
+            qty: 1,
+            price: 100,
+            penalty: 50,
+            payment: 'Unpaid',
+            status: 'In-shop',
+            date: '11/1/2025'
+        }, {
+            id: 'RCPT-23346',
+            name: 'Ana Reyes',
+            item: 'Curtains',
+            type: 'Dry-cleaning',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Paid',
+            status: 'Picked Up',
+            date: '11/8/2025'
+        }, {
+            id: 'RCPT-23347',
+            name: 'Carlos Lopez',
+            item: 'Jacket',
+            type: 'Wash-and-fold',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Paid',
+            status: 'In-shop',
+            date: '11/8/2025'
+        }, {
+            id: 'RCPT-23348',
+            name: 'Sofia Garcia',
+            item: 'Towels',
+            type: 'Wash-and-fold',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Paid',
+            status: 'Picked Up',
+            date: '11/8/2025'
+        }, {
+            id: 'RCPT-23349',
+            name: 'Miguel Torres',
+            item: 'Shirts',
+            type: 'Dry-cleaning',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Unpaid',
+            status: 'In-shop',
+            date: '11/8/2025'
+        }, {
+            id: 'RCPT-23350',
+            name: 'Isabella Ramos',
+            item: 'Dress',
+            type: 'Wash-and-fold',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Paid',
+            status: 'In-shop',
+            date: '11/8/2025'
+        }, {
+            id: 'RCPT-23351',
+            name: 'Diego Flores',
+            item: 'Pants',
+            type: 'Wash-and-fold',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Paid',
+            status: 'In-shop',
+            date: '11/8/2025'
+        }, {
+            id: 'RCPT-23352',
+            name: 'Lucia Mendoza',
+            item: 'Blanket',
+            type: 'Dry-cleaning',
+            qty: 1,
+            price: 100,
+            penalty: 0,
+            payment: 'Paid',
+            status: 'In-shop',
+            date: '11/8/2025'
+        }];
+
+        let filteredReceipts = [...receipts];
+        let currentPage = 1;
+        let rowsPerPage = 10;
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainWrapper = document.getElementById('mainWrapper');
+            const burgerBtn = document.getElementById('burgerBtn');
+
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('open');
+            } else {
+                sidebar.classList.toggle('closed');
+                mainWrapper.classList.toggle('expanded');
+            }
+            burgerBtn.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const burgerBtn = document.getElementById('burgerBtn');
+            const mainWrapper = document.getElementById('mainWrapper');
+
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(event.target) && !burgerBtn.contains(event.target)) {
+                    sidebar.classList.remove('open');
+                    burgerBtn.classList.remove('active');
+                }
+            }
+        });
+
+        function renderTable(data) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+            const pageData = data.slice(startIndex, endIndex);
+
+            pageData.forEach(receipt => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${receipt.id}</td>
+                    <td>${receipt.name}</td>
+                    <td>${receipt.item}</td>
+                    <td>${receipt.type}</td>
+                    <td>${receipt.qty}</td>
+                    <td>₱${receipt.price}</td>
+                    <td class="${receipt.payment === 'Paid' ? 'status-paid' : 'status-unpaid'}">${receipt.payment}</td>
+                    <td class="${receipt.status === 'Picked Up' ? 'laundry-picked' : 'laundry-shop'}">${receipt.status}</td>
+                    <td>₱${receipt.penalty}</td>
+                    <td>${receipt.date}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn-view" onclick="viewReceipt('${receipt.id}')">👁</button>
+                            <button class="btn-edit" onclick="editReceipt('${receipt.id}')">✏️</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            updatePaginationControls(data.length);
+        }
+
+        function updatePaginationControls(totalItems) {
+            const totalPages = Math.ceil(totalItems / rowsPerPage);
+            const startItem = totalItems === 0 ? 0 : (currentPage - 1) * rowsPerPage + 1;
+            const endItem = Math.min(currentPage * rowsPerPage, totalItems);
+
+            document.getElementById('paginationInfo').textContent =
+                `Showing ${startItem} to ${endItem} of ${totalItems} entries`;
+
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+
+            const pageNumbers = document.getElementById('pageNumbers');
+            pageNumbers.innerHTML = '';
+
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = 'page-number' + (i === currentPage ? ' active' : '');
+                pageBtn.textContent = i;
+                pageBtn.onclick = () => goToPage(i);
+                pageNumbers.appendChild(pageBtn);
+            }
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderTable(filteredReceipts);
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable(filteredReceipts);
+            }
+        }
+
+        function nextPage() {
+            const totalPages = Math.ceil(filteredReceipts.length / rowsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable(filteredReceipts);
+            }
+        }
+
+        function changeRowsPerPage() {
+            rowsPerPage = parseInt(document.getElementById('rowsPerPage').value);
+            currentPage = 1;
+            renderTable(filteredReceipts);
+        }
+
+        function viewReceipt(id) {
+            const receipt = receipts.find(r => r.id === id);
+            if (receipt) {
+                document.getElementById('modalReceiptId').textContent = receipt.id;
+                document.getElementById('modalName').textContent = receipt.name;
+                document.getElementById('modalItem').textContent = receipt.item;
+                document.getElementById('modalLaundryType').textContent = receipt.type;
+                document.getElementById('modalQuantity').textContent = receipt.qty;
+                document.getElementById('modalPrice').textContent = '₱' + receipt.price;
+                document.getElementById('modalPenalty').textContent = '₱' + receipt.penalty;
+                document.getElementById('modalPaymentStatus').textContent = receipt.payment;
+                document.getElementById('modalLaundryStatus').textContent = receipt.status;
+
+                document.getElementById('receiptModal').classList.add('active');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('receiptModal').classList.remove('active');
+        }
+
+        function editReceipt(id) {
+            alert('Edit functionality for receipt ' + id);
+        }
+
+        function filterTable() {
+            const searchValue = document.getElementById('searchInput').value.toLowerCase();
+            const paymentFilter = document.getElementById('paymentFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            filteredReceipts = receipts.filter(receipt => {
+                const matchesSearch = receipt.id.toLowerCase().includes(searchValue) ||
+                    receipt.name.toLowerCase().includes(searchValue);
+                const matchesPayment = paymentFilter === 'all' || receipt.payment.toLowerCase() === paymentFilter;
+                const matchesStatus = statusFilter === 'all' || receipt.status.toLowerCase().replace(' ', '-') === statusFilter;
+
+                return matchesSearch && matchesPayment && matchesStatus;
+            });
+
+            currentPage = 1;
+            renderTable(filteredReceipts);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterTable);
+        document.getElementById('paymentFilter').addEventListener('change', filterTable);
+        document.getElementById('statusFilter').addEventListener('change', filterTable);
+
+        document.getElementById('receiptModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        renderTable(receipts);
+    </script>
+</body>
+
+</html>
