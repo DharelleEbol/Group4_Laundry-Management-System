@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>POS</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/pos.css" />
+</head>
+ 
+<body>
+  <div class="container">
+
+    <div class="sidebar" id="sidebar">
+      <div class="company-name">Papa J's</div>
+      <a href="dashboard.html" class="menu-item">📊 Dashboard</a>
+      <a href="pos.html" class="menu-item active">📠 POS</a>
+      <a href="inventory.html" class="menu-item">🗂️ Inventory</a>
+      <a href="receipt.html" class="menu-item">🧾 Receipt Management</a>
+      <div class="logout">
+        <a href="login.html" class="menu-item">➜ Log Out</a>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main-content" id="mainContent">
+
+      <!-- HEADER -->
+      <div class="header">
+        <div class="header-left">
+          <button class="burger-btn" id="burgerBtn">
+            <span></span><span></span><span></span>
+          </button>
+          <h1 class="dashboard-title">Point of Sale</h1>
+        </div>
+
+        <div class="user-info">
+          <div class="user-text">
+            <div class="user-name">Account Name</div>
+            <div class="user-role">Admin</div>
+          </div>
+          <div class="user-avatar"></div>
+        </div>
+      </div>
+
+      <!-- POS LAYOUT -->
+      <div class="pos-container">
+
+        <!-- LEFT -->
+        <div class="pos-left">
+          <div class="box service-box">
+            <h4 class="box-title">Service Items</h4>
+            <div id="serviceGrid" class="service-grid"></div>
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="pos-right">
+          <div class="pos-right-container">
+            <div class="box">
+              <div class="customer-search-row">
+                <input class="input" id="customerSearch" placeholder="Search Customer..." />
+                <button class="btn" id="openCustomerModal">Add customer</button>
+              </div>
+
+              <div class="receipt-row">
+                <input class="input" id="receiptId" placeholder="RCPT-0000" readonly />
+                <input class="input" id="dateInput" type="date" />
+              </div>
+
+              <input class="input" id="custName" placeholder="Name" />
+              <input class="input" id="custAddress" placeholder="Address" />
+              <input class="input" id="custPhone" placeholder="Phone Number" />
+            </div>
+
+            <div class="box cart-box">
+              <div class="table-wrapper">
+                <table class="table" id="cartTable">
+                  <thead>
+                    <tr>
+                      <th>Service</th>
+                      <th>Rate</th>
+                      <th>Kilogram</th>
+                      <th>Notes</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+
+              <div class="cart-footer">
+                <div class="kv subtotal-row">
+                  <div>Subtotal</div>
+                  <div id="subtotal">₱0.00</div>
+                </div>
+
+                <div class="kv total-row">
+                  <div>Total Payment</div>
+                  <div id="total">₱0.00</div>
+                </div>
+
+                <!-- PAYMENT + CLEAR BUTTONS-->
+                <div class="payment-clear-wrapper">
+                  <button class="modal-payment-btn" id="openPaymentModal">Payment method</button>
+                  <button class="modal-clear-btn" id="clearBtn">Clear</button>
+                </div>
+
+                <div class="complete-wrapper">
+                  <button class="complete-btn" id="saveBtn">Complete and Save Transaction</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--SERVICE MODAL -->
+  <div class="modal-backdrop" id="addServiceBackdrop">
+    <div class="modal add-service-modal">
+      <div class="modal-header">Add Service</div>
+
+      <div class="modal-body modal-center">
+        <p class="muted">
+          <span id="modalServiceName"></span><br />
+          <span id="modalServiceRate"></span>
+        </p>
+
+        <input class="input" id="kgInput" type="number" min="0.1" step="0.1" placeholder="Kilogram (e.g., 2)" />
+        <input class="input note-input" id="notesInput" type="text" placeholder="Notes (optional)" />
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-clear-btn" id="cancelAddService">Cancel</button>
+        <button class="modal-confirm-btn" id="confirmAddService">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD CUSTOMER MODAL -->
+<div class="modal-backdrop" id="customerBackdrop">
+  <div class="modal">
+    <div class="modal-header">Add Customer</div>
+
+    <div class="modal-body">
+      <input class="input" id="newCustName" placeholder="Customer Name" />
+      <input class="input" id="newCustAddress" placeholder="Address" />
+      <input class="input" id="newCustPhone" placeholder="Phone Number" />
+    </div>
+
+    <div class="modal-actions">
+      <button class="modal-clear-btn" id="cancelCustomer">Cancel</button>
+      <button class="modal-confirm-btn" id="saveCustomer">Add Customer</button>
+    </div>
+  </div>
+</div>
+
+  <!-- PAYMENT MODAL -->
+  <div class="modal-backdrop" id="paymentBackdrop">
+    <div class="modal">
+      <div class="modal-header">Payment</div>
+
+      <div class="modal-body">
+        <div class="kv">
+          <div>Total Payment</div>
+          <div id="payTotal">₱0.00</div>
+        </div>
+
+        <label class="payment-label">Payment Method</label>
+        <select class="input" id="paymentMethod">
+          <option value="Cash">Cash</option>
+          <option value="Paypal">Paypal</option>
+        </select>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-clear-btn" id="clearPayment">Clear</button>
+        <button class="modal-confirm-btn" id="confirmPayment">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLEAR CONFIRMATION MODAL -->
+  <div class="modal-backdrop" id="clearConfirmBackdrop">
+    <div class="modal">
+      <div class="modal-header" id="clearModalHeader">Clear Transaction</div>
+
+      <div class="modal-body">
+        <p style="margin: 0; font-size: 14px; color: #374151;" id="clearModalMessage">
+          Are you sure you want to clear all transaction data? This action cannot be undone.
+        </p>
+      </div>
+
+      <div class="modal-actions" id="clearModalActions">
+        <button class="modal-clear-btn" id="cancelClear">Cancel</button>
+        <button class="modal-confirm-btn" id="confirmClear">Yes, Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">✅ Transaction completed successfully!</div>
+  <div class="toast toast-clear" id="clearToast">🗑️ Transaction cleared successfully!</div>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("closed");
+      document.getElementById("mainContent").classList.toggle("expanded");
+      document.getElementById("burgerBtn").classList.toggle("active");
+    }
+
+    document.getElementById("burgerBtn").onclick = toggleSidebar;
+
+    const peso = n => '₱' + (Number(n || 0)).toFixed(2);
+
+    const services = [
+      { name: 'Clothes', rate: 25.00, emoji: '👕' },
+      { name: 'Pants', rate: 25.00, emoji: '👖' },
+      { name: 'Comforter', rate: 35.00, emoji: '🛏️' },
+      { name: 'Curtains', rate: 25.00, emoji: '🪟' },
+      { name: 'Mix Clothes', rate: 25.00, emoji: '👔' },
+      { name: 'Blanket', rate: 30.00, emoji: '🧣' }
+    ];
+
+    let cart = [];
+    let payment = { method: null };
+    let selectedService = null;
+
+    function nextReceipt() {
+      const last = Number(localStorage.getItem('lastReceiptId') || '1200');
+      const next = last + 1;
+      localStorage.setItem('lastReceiptId', String(next));
+      return 'RCP-' + next;
+    }
+
+    function calcTotals() {
+      const subtotal = cart.reduce((s, i) => s + i.rate * i.kg, 0);
+      document.getElementById('subtotal').textContent = peso(subtotal);
+      document.getElementById('total').textContent = peso(subtotal);
+      document.getElementById('payTotal').textContent = peso(subtotal);
+      return subtotal;
+    }
+
+    function renderServices(list = services) {
+      const grid = document.getElementById('serviceGrid');
+      grid.innerHTML = '';
+      list.forEach(s => {
+        const div = document.createElement('div');
+        div.className = 'service-item';
+        div.innerHTML = `
+          <div style="font-size:48px;margin-bottom:8px;">${s.emoji}</div>
+          <div style="font-weight:700;font-size:14px;">${s.name}</div>
+          <div class="muted">${peso(s.rate)} per kilo</div>
+        `;
+        div.addEventListener('click', () => openAddService(s));
+        grid.appendChild(div);
+      });
+    }
+
+    function renderCart() {
+      const body = document.querySelector('#cartTable tbody');
+      body.innerHTML = '';
+      cart.forEach((item, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${item.name}</td>
+          <td>${peso(item.rate)}</td>
+          <td>${item.kg}</td>
+          <td>${item.notes || '-'}</td>
+          <td><button class="btn" data-remove="${idx}">Remove</button></td>
+        `;
+        body.appendChild(tr);
+      });
+      calcTotals();
+    }
+
+    const addServiceBackdrop = document.getElementById('addServiceBackdrop');
+
+    function openAddService(service) {
+      selectedService = service;
+      document.getElementById('modalServiceName').textContent = service.name;
+      document.getElementById('modalServiceRate').textContent = peso(service.rate);
+      document.getElementById('kgInput').value = '';
+      document.getElementById('notesInput').value = '';
+      addServiceBackdrop.style.display = 'flex';
+      setTimeout(() => document.getElementById('kgInput').focus(), 10);
+    }
+
+    document.getElementById('cancelAddService').onclick = () => {
+      addServiceBackdrop.style.display = 'none';
+    };
+
+    document.getElementById('confirmAddService').onclick = () => {
+      const kg = parseFloat(document.getElementById('kgInput').value);
+      const notes = document.getElementById('notesInput').value.trim();
+      if (!selectedService || isNaN(kg) || kg <= 0) {
+        alert('Enter a valid kilogram');
+        return;
+      }
+      cart.push({ name: selectedService.name, rate: selectedService.rate, kg, notes });
+      addServiceBackdrop.style.display = 'none';
+      renderCart();
+    };
+
+    const customerBackdrop = document.getElementById('customerBackdrop');
+
+    document.getElementById('openCustomerModal').onclick = () => {
+      customerBackdrop.style.display = 'flex';
+    };
+
+    document.getElementById('cancelCustomer').onclick = () => {
+      customerBackdrop.style.display = 'none';
+    };
+
+    document.getElementById('saveCustomer').onclick = () => {
+      const name = document.getElementById('newCustName').value.trim();
+      const address = document.getElementById('newCustAddress').value.trim();
+      const phone = document.getElementById('newCustPhone').value.trim();
+
+      if (!name) {
+        alert("Please enter customer name.");
+        return;
+      }
+
+      document.getElementById('custName').value = name;
+      document.getElementById('custAddress').value = address;
+      document.getElementById('custPhone').value = phone;
+
+      customerBackdrop.style.display = 'none';
+
+      document.getElementById('newCustName').value = "";
+      document.getElementById('newCustAddress').value = "";
+      document.getElementById('newCustPhone').value = "";
+    };
+
+
+    document.getElementById('openPaymentModal').onclick = () => {
+      calcTotals();
+      document.getElementById('paymentBackdrop').style.display = 'flex';
+    };
+
+    document.getElementById('clearPayment').onclick = () => {
+      document.getElementById('paymentMethod').value = 'Cash';
+    };
+
+    document.getElementById('confirmPayment').onclick = () => {
+      payment.method = document.getElementById('paymentMethod').value;
+      document.getElementById('openPaymentModal').textContent = `Payment: ${payment.method}`;
+      document.getElementById('paymentBackdrop').style.display = 'none';
+    };
+
+    // Clear button functionality
+    const clearConfirmBackdrop = document.getElementById('clearConfirmBackdrop');
+    
+    document.getElementById('clearBtn').onclick = () => {
+      // Check if there's any data to clear
+      const hasCartItems = cart.length > 0;
+      const hasCustomerData = document.getElementById('custName').value.trim() !== '' ||
+                              document.getElementById('custAddress').value.trim() !== '' ||
+                              document.getElementById('custPhone').value.trim() !== '' ||
+                              document.getElementById('customerSearch').value.trim() !== '';
+      const hasData = hasCartItems || hasCustomerData;
+      
+      const modalHeader = document.getElementById('clearModalHeader');
+      const modalMessage = document.getElementById('clearModalMessage');
+      const modalActions = document.getElementById('clearModalActions');
+      
+      clearConfirmBackdrop.style.display = 'flex';
+      
+      if (hasData) {
+        // Show confirmation dialog
+        modalHeader.textContent = 'Clear Transaction';
+        modalMessage.textContent = 'Are you sure you want to clear all transaction data? This action cannot be undone.';
+        modalActions.style.display = 'flex';
+        modalActions.innerHTML = `
+          <button class="modal-clear-btn" id="cancelClear">Cancel</button>
+          <button class="modal-confirm-btn" id="confirmClear">Yes, Clear</button>
+        `;
+        
+        // Re-attach event listeners after creating new buttons
+        setTimeout(() => {
+          document.getElementById('cancelClear').onclick = () => {
+            clearConfirmBackdrop.style.display = 'none';
+          };
+          
+          document.getElementById('confirmClear').onclick = () => {
+            clearAllData();
+          };
+        }, 0);
+      } else {
+        // Show "no data" message
+        modalHeader.textContent = 'No Data';
+        modalMessage.textContent = 'There is no data to be cleared.';
+        modalActions.style.display = 'flex';
+        modalActions.style.justifyContent = 'center';
+        modalActions.innerHTML = `
+          <button class="modal-confirm-btn" id="closeNoData">OK</button>
+        `;
+        
+        setTimeout(() => {
+          document.getElementById('closeNoData').onclick = () => {
+            clearConfirmBackdrop.style.display = 'none';
+            modalActions.style.justifyContent = 'flex-end';
+          };
+        }, 0);
+      }
+    };
+    
+    function clearAllData() {
+      // Clear all transaction data
+      cart = [];
+      payment = { method: null };
+      
+      // Reset customer fields
+      document.getElementById('custName').value = '';
+      document.getElementById('custAddress').value = '';
+      document.getElementById('custPhone').value = '';
+      document.getElementById('customerSearch').value = '';
+      
+      // Reset payment button text
+      document.getElementById('openPaymentModal').textContent = 'Payment method';
+      
+      // Reset payment method
+      document.getElementById('paymentMethod').value = 'Cash';
+      
+      // Re-render cart
+      renderCart();
+      
+      // Close modal
+      clearConfirmBackdrop.style.display = 'none';
+      
+      // Show success toast
+      const clearToast = document.getElementById('clearToast');
+      clearToast.style.display = 'block';
+      setTimeout(() => clearToast.style.display = 'none', 2000);
+    }
+
+    document.getElementById('saveBtn').onclick = () => {
+      const name = document.getElementById('custName').value.trim();
+      if (!name || cart.length === 0) {
+        alert('Please add items and customer.');
+        return;
+      }
+      const total = calcTotals();
+      const tx = {
+        receipt: document.getElementById('receiptId').value,
+        date: document.getElementById('dateInput').value,
+        customer: {
+          name,
+          address: document.getElementById('custAddress').value,
+          phone: document.getElementById('custPhone').value
+        },
+        items: cart,
+        totals: { subtotal: total, extras: 0, total },
+        payment
+      };
+      const list = JSON.parse(localStorage.getItem('transactions') || '[]');
+      list.push(tx);
+      localStorage.setItem('transactions', JSON.stringify(list));
+      const t = document.getElementById('toast');
+      t.style.display = 'block';
+      setTimeout(() => t.style.display = 'none', 2000);
+      cart = [];
+      renderCart();
+      document.getElementById('receiptId').value = nextReceipt();
+    };
+
+    document.querySelector('#cartTable').addEventListener('click', e => {
+      const i = e.target.getAttribute('data-remove');
+      if (i !== null) {
+        cart.splice(i, 1);
+        renderCart();
+      }
+    });
+
+    (function init() {
+      renderServices();
+      document.getElementById('receiptId').value = nextReceipt();
+      document.getElementById('dateInput').valueAsDate = new Date();
+    })();
+  </script>
+</body>
+
+</html>

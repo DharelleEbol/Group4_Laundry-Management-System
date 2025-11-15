@@ -1,0 +1,46 @@
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.user-text {
+  text-align: right;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.user-role {
+  font-size: 12px;
+  color: #666;
+}
+
+.chart-controls {
+  margin-bottom: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.chart-btn {
+  padding: 6px 14px;
+  border-radius: 10px;
+  border: rgb(207, 207, 207) 1px solid;
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 12px;
+  transition: 0.2s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+}
+
+.chart-btn:hover {
+  background: #ccc;
+}
+
+.chart-btn.active {
+  background: #2196F3;
+  color: #fff;
+  font-weight:600;
+}
