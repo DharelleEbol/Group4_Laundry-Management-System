@@ -60,7 +60,7 @@ body {
 }
 
 .menu-item.active {
-    background: rgba(255, 255, 255, 0.7);
+    background: white;
     font-weight: 600;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -70,6 +70,72 @@ body {
     bottom: 25px;
     width: calc(100% - 20px);
     left: 10px;
+}
+
+.sidebar {
+    width: 260px;
+    background: linear-gradient(180deg, #ffffff 0%, #e3f2fd 100%);
+    padding: 20px 0;
+    transition: transform 0.3s ease;
+    position: fixed;
+    height: 100vh;
+    z-index: 1000;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+    left: 0;
+    top: 0;
+    display: flex;
+    /* Make it flex */
+    flex-direction: column;
+    /* Vertical layout */
+    justify-content: space-between;
+    /* Push top and bottom apart */
+}
+
+.sidebar.closed {
+    transform: translateX(-260px);
+}
+
+.company-name {
+    padding: 0 20px 25px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+}
+
+.menu-item {
+    padding: 14px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s;
+    font-size: 15px;
+    color: #333;
+    margin: 4px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, 0.5);
+    transform: translateX(5px);
+}
+
+
+/* Group top items */
+
+.sidebar-top {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Bottom log out button */
+
+.sidebar-bottom {
+    padding: 0 20px;
+    margin-top: auto;
+    /* Ensure it stays at bottom */
 }
 
 
@@ -236,6 +302,25 @@ canvas {
     max-height: 280px !important;
 }
 
+.chart-filter button {
+    padding: 8px 18px;
+    background: white;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.chart-filter button:hover {
+    background: #bbdefb;
+}
+
+.chart-filter button.active {
+    background: #2196F3;
+    color: white;
+}
+
 
 /* Data Table */
 
@@ -261,8 +346,8 @@ td {
 }
 
 th {
-    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-    color: white;
+    background: white;
+    color: black;
     font-weight: 600;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }

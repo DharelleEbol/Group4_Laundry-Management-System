@@ -10,13 +10,16 @@
 
 <body>
     <div class="sidebar" id="sidebar">
-        <div class="company-name">Labady</div>
-        <a href="dashboard.html" class="menu-item">🏠 Dashboard</a>
-        <a href="branchdashboard.html" class="menu-item">📍 Branch Dashboard</a>
-        <a href="transactionhistory.html" class="menu-item active">📋 Transaction History</a>
-        <a href="logIn.php" class="menu-item">🚪 Log Out</a>
+        <div class="sidebar-top">
+            <div class="company-name">Labady</div>
+            <a href="dashboard.html" class="menu-item">🏠 Dashboard</a>
+            <a href="branchdashboard.html" class="menu-item">📍 Branch Dashboard</a>
+            <a href="transactionhistory.html" class="menu-item active">📋 Transaction History</a>
+        </div>
+        <div class="sidebar-bottom">
+            <a href="logIn.php" class="menu-item">🚪 Log Out</a>
+        </div>
     </div>
-
     <div class="main-wrapper" id="mainWrapper">
         <div class="header">
             <div style="display: flex; align-items: center; gap: 20px;">
@@ -65,7 +68,7 @@
                             <th>Service Type</th>
                             <th>Qty</th>
                             <th>Price</th>
-                            <th>Payment</th>
+                            <th>Payment Status</th>
                             <th>Status</th>
                             <th>Penalty</th>
                             <th>Date</th>
@@ -136,6 +139,10 @@
             <div class="detail-row">
                 <span class="detail-label">Laundry Status:</span>
                 <span class="detail-value" id="modalLaundryStatus">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Date:</span>
+                <span class="detail-value" id="modalDate">-</span>
             </div>
             <button class="btn-close" onclick="closeModal()">Close</button>
         </div>
@@ -397,7 +404,6 @@
                     <td>
                         <div class="actions">
                             <button class="btn-view" onclick="viewReceipt('${receipt.id}')">👁</button>
-                            <button class="btn-edit" onclick="editReceipt('${receipt.id}')">✏️</button>
                         </div>
                     </td>
                 `;
@@ -473,9 +479,10 @@
                 document.getElementById('modalLaundryType').textContent = receipt.type;
                 document.getElementById('modalQuantity').textContent = receipt.qty;
                 document.getElementById('modalPrice').textContent = '₱' + receipt.price;
-                document.getElementById('modalPenalty').textContent = '₱' + receipt.penalty;
                 document.getElementById('modalPaymentStatus').textContent = receipt.payment;
                 document.getElementById('modalLaundryStatus').textContent = receipt.status;
+                document.getElementById('modalPenalty').textContent = '₱' + receipt.penalty;
+                document.getElementById('modalDate').textContent = receipt.date;
 
                 document.getElementById('receiptModal').classList.add('active');
             }

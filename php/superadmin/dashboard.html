@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../../javascript/chart.js"></script>
     <link rel="stylesheet" href="../../css/superadmin/dashboard.css" />
 </head>
 
@@ -13,13 +13,16 @@
     <div class="container">
 
         <div class="sidebar" id="sidebar">
-            <div class="company-name">Labady</div>
-            <a href="dashboard.html" class="menu-item">🏠 Dashboard</a>
-            <a href="branchdashboard.html" class="menu-item active">📍 Branch Dashboard</a>
-            <a href="transactionhistory.html" class="menu-item active">📋 Transaction History</a>
-            <a href="logIn.php" class="menu-item active">🚪 Log Out</a>
+            <div class="sidebar-top">
+                <div class="company-name">Labady</div>
+                <a href="dashboard.html" class="menu-item active">🏠 Dashboard</a>
+                <a href="branchdashboard.html" class="menu-item">📍 Branch Dashboard</a>
+                <a href="transactionhistory.html" class="menu-item ">📋 Transaction History</a>
+            </div>
+            <div class="sidebar-bottom">
+                <a href="logIn.php" class="menu-item">🚪 Log Out</a>
+            </div>
         </div>
-
 
         <div class="main-content" id="mainContent">
             <div class="header">
@@ -46,7 +49,7 @@
                     <div class="stat-label">Total Sales</div>
                     <div class="stat-value">₱10,505</div>
                 </div>
-                <div class="stat-card highlighted">
+                <div class="stat-card">
                     <div class="stat-label">Total Orders</div>
                     <div class="stat-value">1,521</div>
                 </div>
@@ -58,7 +61,11 @@
 
 
             <div class="chart-container">
-                <div class="chart-title">Revenue Trends</div>
+                <div class="chart-title">Revenue</div>
+                <div class="chart-filter">
+                    <button onclick="updateChart('weekly')">Weekly</button>
+                    <button onclick="updateChart('monthly')">Monthly</button>
+                    <button onclick="updateChart('yearly')">Yearly</button> </div>
                 <canvas id="revenueChart"></canvas>
             </div>
 
@@ -128,48 +135,82 @@
             }
         });
 
-        const ctx1 = document.getElementById("revenueChart").getContext("2d");
-        new Chart(ctx1, {
-            type: "line",
-            data: {
-                labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-                datasets: [{
-                    label: "Revenue",
-                    data: [4000, 5000, 7500, 7000, 8500, 9000, 9500],
-                    borderColor: "#2196F3",
-                    backgroundColor: "rgba(33, 150, 243, 0.2)",
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 5,
-                    pointBackgroundColor: "#2196F3",
-                    pointBorderColor: "#fff",
-                    pointBorderWidth: 2,
-                    pointHoverRadius: 7,
-                }, ],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
+        function updateChart(range) {
+            let labels, data, title;
+
+            const buttons = document.querySelectorAll(".chart-filter button");
+            buttons.forEach(btn => {
+                if (btn.textContent.toLowerCase() === range) {
+                    btn.classList.add("active");
+                } else {
+                    btn.classList.remove("active");
+                }
+            });
+
+            // Chart data
+            if (range === "weekly") {
+                title = "Weekly Sales";
+                labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+                data = [4000, 5000, 7500, 7000, 8500, 9000, 9500];
+            } else if (range === "monthly") {
+                title = "Monthly Sales";
+                labels = ["Week 1", "Week 2", "Week 3", "Week 4"];
+                data = [25000, 32000, 28000, 35000];
+            } else if (range === "yearly") {
+                title = "Yearly Sales";
+                labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                data = [100000, 120000, 130000, 90000, 110000, 150000, 170000, 160000, 145000, 175000, 180000, 190000];
+            }
+
+            renderChart(title, labels, data);
+        }
+        let revenueChart; // global variable to hold chart instance
+
+        function renderChart(title, labels, data) {
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+
+            if (revenueChart) {
+                revenueChart.destroy();
+            }
+
+            revenueChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: title,
+                        data: data,
+                        borderColor: '#2196F3',
+                        backgroundColor: 'rgba(33, 150, 243, 0.2)',
+                        fill: true,
+                        tension: 0.3
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.05)',
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: title,
+                            font: {
+                                size: 18
+                            }
                         }
                     },
-                    x: {
-                        grid: {
-                            display: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
                         }
                     }
-                },
-            },
-        });
+                }
+            });
+        }
+
+        // Initialize chart with weekly data by default
+        updateChart('weekly');
     </script>
 </body>
 

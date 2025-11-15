@@ -5,21 +5,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Branch Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../../javascript/chart2.js"></script>
     <link rel="stylesheet" href="../../css/superadmin/dashboard.css" />
 </head>
 
 <body>
     <div class="container">
-
         <div class="sidebar" id="sidebar">
-            <div class="company-name">Labady</div>
-            <a href="dashboard.html" class="menu-item">🏠 Dashboard</a>
-            <a href="branchdashboard.html" class="menu-item active">📍 Branch Dashboard</a>
-            <a href="transactionhistory.html" class="menu-item active">📋 Transaction History</a>
-
-            <div class="menu-item active">🚪 Log Out</div>
-
+            <div class="sidebar-top">
+                <div class="company-name">Labady</div>
+                <a href="dashboard.html" class="menu-item">🏠 Dashboard</a>
+                <a href="branchdashboard.html" class="menu-item active">📍 Branch Dashboard</a>
+                <a href="transactionhistory.html" class="menu-item ">📋 Transaction History</a>
+            </div>
+            <div class="sidebar-bottom">
+                <a href="logIn.php" class="menu-item">🚪 Log Out</a>
+            </div>
         </div>
 
 
@@ -41,36 +42,49 @@
                     <div class="user-avatar" onclick="window.location.href='userprofile.html'"></div>
                 </div>
             </div>
-
-
             <div class="chart-container">
-                <div class="chart-title">Laundry Volume by Weight (Weekly)</div>
+                <div class="chart-title">
+                    Laundry Volume by Weight
+                    <div class="chart-filter" id="laundryFilter">
+                        <button class="active" data-timeframe="weekly">Weekly</button>
+                        <button data-timeframe="monthly">Monthly</button>
+                        <button data-timeframe="yearly">Yearly</button>
+                    </div>
+                </div>
                 <canvas id="laundryWeightChart"></canvas>
             </div>
 
+
             <div class="chart-container">
-                <div class="chart-title">Pick Up Status</div>
+                <div class="chart-title">
+                    Pick Up Status
+                    <div class="chart-filter" id="pickUpFilter">
+                        <button class="active" data-timeframe="weekly">Weekly</button>
+                        <button data-timeframe="monthly">Monthly</button>
+                        <button data-timeframe="yearly">Yearly</button>
+                    </div>
+                </div>
                 <canvas id="pickUpChart"></canvas>
             </div>
+
         </div>
     </div>
 
+
     <script>
+        // Toggle Sidebar
         function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
             const mainContent = document.getElementById("mainContent");
             const burgerBtn = document.getElementById("burgerBtn");
-
             sidebar.classList.toggle("closed");
             mainContent.classList.toggle("expanded");
             burgerBtn.classList.toggle("active");
         }
 
-
         document.addEventListener('click', function(event) {
             const sidebar = document.getElementById('sidebar');
             const burgerBtn = document.getElementById('burgerBtn');
-
             if (window.innerWidth <= 768) {
                 if (!sidebar.contains(event.target) && !burgerBtn.contains(event.target)) {
                     sidebar.classList.add('closed');
@@ -80,15 +94,38 @@
             }
         });
 
+        // Chart Data
+        const laundryData = {
+            weekly: [145, 180, 220, 195, 250, 310, 280],
+            monthly: [1200, 1500, 1400, 1700],
+            yearly: [16000, 18000, 17500, 20000, 19000, 21000, 22000, 23000, 25000, 24000, 26000, 27000]
+        };
+        const laundryLabels = {
+            weekly: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            monthly: ["Week 1", "Week 2", "Week 3", "Week 4"],
+            yearly: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        };
 
+        const pickUpData = {
+            weekly: [18500, 16000],
+            monthly: [80000, 90000],
+            yearly: [950000, 1020000, 980000, 1100000, 1200000, 1150000, 1300000, 1250000, 1400000, 1500000, 1450000, 1550000]
+        };
+        const pickUpLabels = {
+            weekly: ["Completed", "In Process"],
+            monthly: ["Completed", "In Process"],
+            yearly: ["Completed", "In Process"]
+        };
+
+        // Initialize Charts
         const ctx1 = document.getElementById("laundryWeightChart").getContext("2d");
-        new Chart(ctx1, {
+        const laundryChart = new Chart(ctx1, {
             type: "line",
             data: {
-                labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                labels: laundryLabels.weekly,
                 datasets: [{
                     label: "Weight (kg)",
-                    data: [145, 180, 220, 195, 250, 310, 280],
+                    data: laundryData.weekly,
                     borderColor: "#2196F3",
                     backgroundColor: "rgba(33, 150, 243, 0.2)",
                     fill: true,
@@ -106,7 +143,7 @@
                 plugins: {
                     legend: {
                         display: false
-                    },
+                    }
                 },
                 scales: {
                     y: {
@@ -119,33 +156,27 @@
                             }
                         },
                         grid: {
-                            color: 'rgba(0, 0, 0, 0.05)',
+                            color: 'rgba(0, 0, 0, 0.05)'
                         }
                     },
                     x: {
                         grid: {
-                            display: false,
+                            display: false
                         }
                     }
                 },
             },
         });
 
-
         const ctx2 = document.getElementById("pickUpChart").getContext("2d");
-        new Chart(ctx2, {
+        const pickUpChart = new Chart(ctx2, {
             type: "bar",
             data: {
-                labels: ["Completed", "Pending", "Delay", "In Process"],
+                labels: pickUpLabels.weekly,
                 datasets: [{
                     label: "Number of Orders",
-                    data: [18500, 8000, 9500, 16000],
-                    backgroundColor: [
-                        "#4CAF50",
-                        "#FFC107",
-                        "#F44336",
-                        "#3F51B5"
-                    ],
+                    data: pickUpData.weekly,
+                    backgroundColor: ["#4CAF50", "#FFC107", "#F44336", "#3F51B5"],
                     borderRadius: 8,
                     borderWidth: 2,
                     borderColor: "#fff",
@@ -157,23 +188,44 @@
                 plugins: {
                     legend: {
                         display: false
-                    },
+                    }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
                         grid: {
-                            color: 'rgba(0, 0, 0, 0.05)',
+                            color: 'rgba(0, 0, 0, 0.05)'
                         }
                     },
                     x: {
                         grid: {
-                            display: false,
+                            display: false
                         }
                     }
                 },
             },
         });
+
+        // BUTTON FILTERS FOR CHARTS
+        function setupChartFilter(chart, labelsData, chartData, filterId) {
+            const buttons = document.querySelectorAll(`#${filterId} button`);
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active from all buttons
+                    buttons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const timeframe = this.dataset.timeframe;
+                    chart.data.labels = labelsData[timeframe];
+                    chart.data.datasets[0].data = chartData[timeframe];
+                    chart.update();
+                });
+            });
+        }
+
+        // Initialize button filters
+        setupChartFilter(laundryChart, laundryLabels, laundryData, 'laundryFilter');
+        setupChartFilter(pickUpChart, pickUpLabels, pickUpData, 'pickUpFilter');
     </script>
 </body>
 
