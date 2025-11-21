@@ -2,56 +2,56 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Receipt Management</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Receipt Management</title>
 
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/receipt.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/receipt.css" />
 </head>
 
 <body>
-  <div class="container">
+    <div class="container">
 
-    <div class="sidebar" id="sidebar">
-      <div class="company-name">Papa J's</div>
-      <a href="dashboard.html" class="menu-item">📊 Dashboard</a>
-      <a href="pos.html" class="menu-item">📠 POS</a>
-      <a href="inventory.html" class="menu-item">🗂️ Inventory</a>
-      <a href="receipt.html" class="menu-item active">🧾 Receipt Management</a>
-      <div class="logout">
-        <a href="login.html" class="menu-item">➜ Log Out</a>
-      </div>
-    </div>
+        <div class="sidebar" id="sidebar">
+            <div class="company-name">Papa J's</div>
+            <a href="dashboard.html" class="menu-item">📊 Dashboard</a>
+            <a href="pos.html" class="menu-item">📠 POS</a>
+            <a href="inventory.html" class="menu-item">🗂️ Inventory</a>
+            <a href="receipt.html" class="menu-item active">🧾 Receipt Management</a>
+            <div class="logout">
+                <a href="login.html" class="menu-item">➜ Log Out</a>
+            </div>
+        </div>
 
-    <!-- MAIN -->
-    <div class="main-content" id="mainContent">
+        <!-- MAIN -->
+        <div class="main-content" id="mainContent">
 
-      <div class="header">
-        <div class="header-left">
-          <button class="burger-btn" id="burgerBtn">
+            <div class="header">
+                <div class="header-left">
+                    <button class="burger-btn" id="burgerBtn">
             <span></span><span></span><span></span>
           </button>
-          <h1 class="dashboard-title">Receipt Management</h1>
-        </div>
+                    <h1 class="dashboard-title">Receipt Management</h1>
+                </div>
 
-        <div class="user-info">
-          <div class="user-text">
-            <div class="user-name">Account Name</div>
-            <div class="user-role">Admin</div>
-          </div>
-          <div class="user-avatar"></div>
-        </div>
-      </div>
+                <div class="user-info">
+                    <div class="user-text">
+                        <div class="user-name">Account Name</div>
+                        <div class="user-role">Admin</div>
+                    </div>
+                    <div class="user-avatar"></div>
+                </div>
+            </div>
 
-      <section class="receipt-wrapper">
+            <section class="receipt-wrapper">
 
-        <div class="receipt-card">
+                <div class="receipt-card">
 
-          <div class="receipt-controls">
-            <input class="receipt-search" id="searchInput" placeholder="Search by receipt, customer name or phone..." />
+                    <div class="receipt-controls">
+                        <input class="receipt-search" id="searchInput" placeholder="Search by receipt, customer name or phone..." />
 
-            <select class="receipt-type-filter" id="laundryTypeFilter">
+                        <select class="receipt-type-filter" id="laundryTypeFilter">
               <option value="All">Laundry Type</option>
               <option value="Clothes">Clothes</option>
               <option value="Pants">Pants</option>
@@ -61,13 +61,14 @@
               <option value="Blanket">Blanket</option>
             </select>
 
-            <select class="receipt-status-filter" id="paymentFilter">
+                        <select class="receipt-status-filter" id="paymentFilter">
               <option value="All">Status</option>
               <option value="Paid">Paid</option>
               <option value="Unpaid">Unpaid</option>
             </select>
-          </div>
+                    </div>
 
+<<<<<<< HEAD
           <div class="receipt-table-wrapper">
             <table class="receipt-table">
               <thead>
@@ -89,151 +90,239 @@
               <tbody id="receiptTable"></tbody>
             </table>
           </div>
+=======
+                    <div class="receipt-table-wrapper">
+                        <table class="receipt-table">
+                            <thead>
+                                <tr>
+                                    <th>Receipt</th>
+                                    <th>Customer</th>
+                                    <th>Phone</th>
+                                    <th>Total</th>
+                                    <th>Paid</th>
+                                    <th>Balance</th>
+                                    <th>Status</th>
+                                    <th>Laundry Status</th>
+                                    <th>Due Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="receiptTable"></tbody>
+                        </table>
+                    </div>
+>>>>>>> f90b9e1dfaa136de8f1c7fbc64d130b3d0313eb7
 
+                </div>
+
+            </section>
         </div>
-
-      </section>
     </div>
-  </div>
 
-  <!-- VIEW / EDIT MODAL -->
-  <div class="modal-backdrop" id="viewModal">
-    <div class="modal">
+    <!-- VIEW / EDIT MODAL -->
+    <div class="modal-backdrop" id="viewModal">
+        <div class="modal">
 
-      <div class="modal-header">
-        <div>Receipt Details — <span id="mReceipt"></span></div>
-        <div class="close-x" id="closeModal">✖</div>
-      </div>
+            <div class="modal-header">
+                <div>Receipt Details — <span id="mReceipt"></span></div>
+                <div class="close-x" id="closeModal">✖</div>
+            </div>
 
-      <div class="modal-body">
+            <div class="modal-body">
 
-        <div class="info-grid">
-          <div>
-            <div class="muted">Customer Name</div>
-            <div id="mName" class="modal-bold"></div>
-          </div>
+                <div class="info-grid">
+                    <div>
+                        <div class="muted">Customer Name</div>
+                        <div id="mName" class="modal-bold"></div>
+                    </div>
 
-          <div>
-            <div class="muted">Phone Number</div>
-            <div id="mPhone"></div>
-          </div>
+                    <div>
+                        <div class="muted">Phone Number</div>
+                        <div id="mPhone"></div>
+                    </div>
 
-          <div>
-            <div class="muted">Due Date</div>
-            <input class="input" type="date" id="mDate" />
-          </div>
+                    <div>
+                        <div class="muted">Due Date</div>
+                        <input class="input" type="date" id="mDate" />
+                    </div>
 
-          <div>
-            <div class="muted">Payment Status</div>
-            <select class="input" id="mPaymentStatus">
+                    <div>
+                        <div class="muted">Payment Status</div>
+                        <select class="input" id="mPaymentStatus">
               <option>Paid</option>
               <option>Unpaid</option>
             </select>
-          </div>
+                    </div>
+                </div>
+
+                <div class="info-grid">
+                    <div class="kv">
+                        <div>Total Amount</div>
+                        <div id="mTotal">₱0.00</div>
+                    </div>
+
+                    <div class="kv">
+                        <div>Paid Amount</div>
+                        <input class="input" id="mPaidInput" type="number" min="0" step="0.01" />
+                    </div>
+
+                    <div class="kv">
+                        <div>Balance</div>
+                        <div id="mBalance">₱0.00</div>
+                    </div>
+                </div>
+
+                <h4 class="modal-items-title">Items</h4>
+
+                <table class="mini-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Quantity (Kg)</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mItems"></tbody>
+                </table>
+
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn" id="cancelView">Cancel</button>
+                <button class="complete-btn" id="saveView">Save</button>
+            </div>
+
         </div>
-
-        <div class="info-grid">
-          <div class="kv">
-            <div>Total Amount</div>
-            <div id="mTotal">₱0.00</div>
-          </div>
-
-          <div class="kv">
-            <div>Paid Amount</div>
-            <input class="input" id="mPaidInput" type="number" min="0" step="0.01" />
-          </div>
-
-          <div class="kv">
-            <div>Balance</div>
-            <div id="mBalance">₱0.00</div>
-          </div>
-        </div>
-
-        <h4 class="modal-items-title">Items</h4>
-
-        <table class="mini-table">
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Quantity (Kg)</th>
-              <th>Price</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="mItems"></tbody>
-        </table>
-
-      </div>
-
-      <div class="modal-actions">
-        <button class="btn" id="cancelView">Cancel</button>
-        <button class="complete-btn" id="saveView">Save</button>
-      </div>
-
     </div>
-  </div>
 
-  <div class="toast" id="toast">✅ Saved!</div>
+    <div class="toast" id="toast">✅ Saved!</div>
+    <div class="modal-backdrop" id="textReceiptModal">
+        <div class="modal receipt-text-modal">
 
-  <script>
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("closed");
-      document.getElementById("mainContent").classList.toggle("expanded");
-      document.getElementById("burgerBtn").classList.toggle("active");
-    }
+            <div class="modal-header">
+                <div>Receipt Details</div>
+                <div class="close-x" onclick="closeTextReceipt()">✖</div>
+            </div>
 
-    document.getElementById("burgerBtn").onclick = toggleSidebar;
+            <div class="modal-body" id="textReceiptBody" style="line-height: 1.6; font-size: 17px;"></div>
 
-    const peso = n => '₱' + Number(n || 0).toFixed(2);
-    let transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
-    let currentIndex = null;
+            <div class="modal-actions">
+                <button class="btn" onclick="closeTextReceipt()">Close</button>
+            </div>
 
-    function computeTotals(tx) {
-      const subtotal = tx.items.reduce((s, i) => s + i.rate * i.kg, 0);
-      const total = subtotal;
-      const paid = Number(tx.payment?.tendered || 0);
-      const balance = Math.max(0, total - paid);
-      const status = paid >= total ? 'Paid' : 'Unpaid';
-      return { total, paid, balance, status };
-    }
+        </div>
+    </div>
+    <div class="modal-backdrop" id="paymentModal" style="display:none;">
+        <div class="modal small-modal">
 
-    function rollupLaundryStatus(tx) {
-      const statuses = tx.items.map(i => i.status || 'Pending');
-      if (statuses.includes('Pending')) return 'Pending';
-      if (statuses.includes('Washing')) return 'Washing';
-      if (statuses.includes('Washed')) return 'Washed';
-      return 'Complete';
-    }
+            <div class="modal-header">
+                <div>Update Payment</div>
+                <div class="close-x" onclick="closePaymentModal()">✖</div>
+            </div>
 
-    function badge(htmlStatus, map) {
-      const cls = (map[htmlStatus] || htmlStatus).toLowerCase();
-      return `<span class="badge ${cls}">${htmlStatus}</span>`;
-    }
+            <div class="modal-body">
 
-    function renderTable() {
-      const tbody = document.getElementById('receiptTable');
-      const q = document.getElementById('searchInput').value.toLowerCase();
-      const typeFilter = document.getElementById('laundryTypeFilter').value;
-      const payFilter = document.getElementById('paymentFilter').value;
+                <div class="kv">
+                    <div>Total Amount</div>
+                    <div id="pTotal">₱0.00</div>
+                </div>
 
-      tbody.innerHTML = '';
+                <div class="kv">
+                    <div>Amount Paid</div>
+                    <input class="input" id="pPaid" type="number" min="0" step="0.01">
+                </div>
 
-      transactions.forEach((tx, idx) => {
-        if (q) {
-          const hay = (tx.receipt + ' ' + tx.customer.name + ' ' + tx.customer.phone).toLowerCase();
-          if (!hay.includes(q)) return;
+                <div class="kv">
+                    <div>Balance</div>
+                    <div id="pBalance">₱0.00</div>
+                </div>
+
+                <div class="kv">
+                    <div>Payment Status</div>
+                    <select class="input" id="pStatus">
+                    <option>Paid</option>
+                    <option>Unpaid</option>
+                </select>
+                </div>
+
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn" onclick="closePaymentModal()">Cancel</button>
+                <button class="complete-btn" onclick="savePayment()">Save</button>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("closed");
+            document.getElementById("mainContent").classList.toggle("expanded");
+            document.getElementById("burgerBtn").classList.toggle("active");
         }
 
-        if (typeFilter !== 'All' && !tx.items.some(i => i.name === typeFilter)) return;
+        document.getElementById("burgerBtn").onclick = toggleSidebar;
 
-        const { total, paid, balance, status } = computeTotals(tx);
+        const peso = n => '₱' + Number(n || 0).toFixed(2);
+        let transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+        let currentIndex = null;
 
-        if (payFilter !== 'All' && status !== payFilter) return;
+        function computeTotals(tx) {
+            const subtotal = tx.items.reduce((s, i) => s + i.rate * i.kg, 0);
+            const total = subtotal;
+            const paid = (tx.payment && tx.payment.tendered) || 0;
+            const balance = Math.max(0, total - paid);
+            const status = paid >= total ? 'Paid' : 'Unpaid';
+            return {
+                total,
+                paid,
+                balance,
+                status
+            };
+        }
 
-        const laundryStatus = rollupLaundryStatus(tx);
+        function rollupLaundryStatus(tx) {
+            const statuses = tx.items.map(i => i.status || 'Pending');
+            if (statuses.includes('Pending')) return 'Pending';
+            if (statuses.includes('Washing')) return 'Washing';
+            if (statuses.includes('Washed')) return 'Washed';
+            return 'Complete';
+        }
 
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
+        function badge(htmlStatus, map) {
+            const cls = (map[htmlStatus] || htmlStatus).toLowerCase();
+            return `<span class="badge ${cls}">${htmlStatus}</span>`;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('receiptTable');
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            const typeFilter = document.getElementById('laundryTypeFilter').value;
+            const payFilter = document.getElementById('paymentFilter').value;
+
+            tbody.innerHTML = '';
+
+            transactions.forEach((tx, idx) => {
+                if (q) {
+                    const hay = (tx.receipt + ' ' + tx.customer.name + ' ' + tx.customer.phone).toLowerCase();
+                    if (!hay.includes(q)) return;
+                }
+
+                if (typeFilter !== 'All' && !tx.items.some(i => i.name === typeFilter)) return;
+
+                const {
+                    total,
+                    paid,
+                    balance,
+                    status
+                } = computeTotals(tx);
+
+                if (payFilter !== 'All' && status !== payFilter) return;
+
+                const laundryStatus = rollupLaundryStatus(tx);
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
           <td>${tx.receipt}</td>
           <td>${tx.customer.name}</td>
           <td>${tx.customer.phone || ''}</td>
@@ -245,32 +334,35 @@
           <td>${badge(status, { Paid: 'paid', Unpaid: 'unpaid' })}</td>
           <td>${badge(laundryStatus, { Pending: 'pending', Washing: 'washing', Washed: 'washed', Complete: 'complete' })}</td>
           <td>${tx.date || ''}</td>
-          <td><span class="action-view" onclick="openView(${idx})">👁️</span></td>
+         <td>
+         <span class="action-view" onclick="openReceiptText(${idx})">👁️</span>
+         <span class="action-edit" onclick="openPayment(${idx})">✏️</span>
+          </td>
         `;
-        tbody.appendChild(tr);
-      });
-    }
+                tbody.appendChild(tr);
+            });
+        }
 
-    function openView(index) {
-      currentIndex = index;
-      const tx = transactions[index];
-      const totals = computeTotals(tx);
+        function openView(index) {
+            currentIndex = index;
+            const tx = transactions[index];
+            const totals = computeTotals(tx);
 
-      document.getElementById('mReceipt').textContent = tx.receipt;
-      document.getElementById('mName').textContent = tx.customer.name;
-      document.getElementById('mPhone').textContent = tx.customer.phone;
-      document.getElementById('mDate').value = tx.date;
-      document.getElementById('mPaymentStatus').value = totals.status;
-      document.getElementById('mTotal').textContent = peso(totals.total);
-      document.getElementById('mPaidInput').value = totals.paid;
-      document.getElementById('mBalance').textContent = peso(totals.balance);
+            document.getElementById('mReceipt').textContent = tx.receipt;
+            document.getElementById('mName').textContent = tx.customer.name;
+            document.getElementById('mPhone').textContent = tx.customer.phone;
+            document.getElementById('mDate').value = tx.date;
+            document.getElementById('mPaymentStatus').value = totals.status;
+            document.getElementById('mTotal').textContent = peso(totals.total);
+            document.getElementById('mPaidInput').value = totals.paid;
+            document.getElementById('mBalance').textContent = peso(totals.balance);
 
-      const body = document.getElementById('mItems');
-      body.innerHTML = '';
+            const body = document.getElementById('mItems');
+            body.innerHTML = '';
 
-      tx.items.forEach((it, i) => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
+            tx.items.forEach((it, i) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
           <td>${it.name}</td>
           <td>${it.kg}</td>
           <td>${peso(it.rate * it.kg)}</td>
@@ -283,58 +375,145 @@
             </select>
           </td>
         `;
-        body.appendChild(row);
-      });
+                body.appendChild(row);
+            });
 
-      document.getElementById('viewModal').style.display = 'flex';
-    }
+            document.getElementById('viewModal').style.display = 'flex';
+        }
 
-    document.getElementById('closeModal').onclick = () => {
-      document.getElementById('viewModal').style.display = 'none';
-    };
+        document.getElementById('closeModal').onclick = () => {
+            document.getElementById('viewModal').style.display = 'none';
+        };
 
-    document.getElementById('cancelView').onclick = () => {
-      document.getElementById('viewModal').style.display = 'none';
-    };
+        document.getElementById('cancelView').onclick = () => {
+            document.getElementById('viewModal').style.display = 'none';
+        };
 
-    document.getElementById('mPaidInput').addEventListener('input', () => {
-      const tx = transactions[currentIndex];
-      const total = computeTotals(tx).total;
-      const paid = Number(document.getElementById('mPaidInput').value || 0);
-      document.getElementById('mBalance').textContent = peso(Math.max(0, total - paid));
-      document.getElementById('mPaymentStatus').value = paid >= total ? 'Paid' : 'Unpaid';
-    });
+        document.getElementById('mPaidInput').addEventListener('input', () => {
+            const tx = transactions[currentIndex];
+            const total = computeTotals(tx).total;
+            const paid = Number(document.getElementById('mPaidInput').value || 0);
+            document.getElementById('mBalance').textContent = peso(Math.max(0, total - paid));
+            document.getElementById('mPaymentStatus').value = paid >= total ? 'Paid' : 'Unpaid';
+        });
 
-    document.getElementById('saveView').onclick = () => {
-      const tx = transactions[currentIndex];
+        function openReceiptText(index) {
+            const tx = transactions[index];
+            const totals = computeTotals(tx);
 
-      tx.date = document.getElementById('mDate').value;
-      const paidVal = Number(document.getElementById('mPaidInput').value || 0);
+            const itemsList = tx.items
+                .map(i => `
+          <b>Item:</b> ${i.name}<br>
+          <b>Laundry Type:</b> ${i.name}<br>
+          <b>Quantity:</b> ${i.kg}<br>
+          <b>Price:</b> ${peso(i.rate * i.kg)}<br>
+          <b>Penalty:</b> ₱0<br><br>
+          `)
+                .join('');
 
-      tx.payment = tx.payment || { method: 'Cash', tendered: 0, change: 0 };
-      tx.payment.tendered = paidVal;
+            const html = `
+          <b>Receipt ID:</b> ${tx.receipt}<br>
+          <b>Name:</b> ${tx.customer.name}<br>
+          ${itemsList}
+          <b>Payment Status:</b> ${totals.status}<br>
+          <b>Laundry Status:</b> ${rollupLaundryStatus(tx)}<br>
+          `;
 
-      document.querySelectorAll('#mItems select').forEach(sel => {
-        const i = Number(sel.getAttribute('data-idx'));
-        tx.items[i].status = sel.value;
-      });
+            document.getElementById('textReceiptBody').innerHTML = html;
+            document.getElementById('textReceiptModal').style.display = 'flex';
+        }
 
-      localStorage.setItem('transactions', JSON.stringify(transactions));
+        function closeTextReceipt() {
+            document.getElementById('textReceiptModal').style.display = 'none';
+        }
+        document.getElementById('saveView').onclick = () => {
+            const tx = transactions[currentIndex];
 
-      const t = document.getElementById('toast');
-      t.style.display = 'block';
-      setTimeout(() => t.style.display = 'none', 2000);
+            tx.date = document.getElementById('mDate').value;
+            const paidVal = Number(document.getElementById('mPaidInput').value || 0);
 
-      renderTable();
-      document.getElementById('viewModal').style.display = 'none';
-    };
+            tx.payment = tx.payment || {
+                method: 'Cash',
+                tendered: 0,
+                change: 0
+            };
+            tx.payment.tendered = paidVal;
 
-    document.getElementById('searchInput').addEventListener('input', renderTable);
-    document.getElementById('laundryTypeFilter').addEventListener('change', renderTable);
-    document.getElementById('paymentFilter').addEventListener('change', renderTable);
+            document.querySelectorAll('#mItems select').forEach(sel => {
+                const i = Number(sel.getAttribute('data-idx'));
+                tx.items[i].status = sel.value;
+            });
 
-    renderTable();
-  </script>
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+
+            const t = document.getElementById('toast');
+            t.style.display = 'block';
+            setTimeout(() => t.style.display = 'none', 2000);
+
+            renderTable();
+            document.getElementById('viewModal').style.display = 'none';
+        };
+
+        document.getElementById('searchInput').addEventListener('input', renderTable);
+        document.getElementById('laundryTypeFilter').addEventListener('change', renderTable);
+        document.getElementById('paymentFilter').addEventListener('change', renderTable);
+        let paymentIndex = null;
+
+        function openPayment(index) {
+            paymentIndex = index;
+            const tx = transactions[index];
+            const totals = computeTotals(tx);
+
+            document.getElementById("pTotal").textContent = peso(totals.total);
+            document.getElementById("pPaid").value = totals.paid;
+            document.getElementById("pBalance").textContent = peso(totals.balance);
+            document.getElementById("pStatus").value = totals.status;
+
+            document.getElementById("paymentModal").style.display = "flex";
+        }
+
+        function closePaymentModal() {
+            document.getElementById("paymentModal").style.display = "none";
+        }
+
+        document.getElementById("pPaid").addEventListener("input", () => {
+            const total = computeTotals(transactions[paymentIndex]).total;
+            const paid = Number(document.getElementById("pPaid").value || 0);
+            const balance = Math.max(0, total - paid);
+            document.getElementById("pBalance").textContent = peso(balance);
+            document.getElementById("pStatus").value = paid >= total ? "Paid" : "Unpaid";
+        });
+
+        function savePayment() {
+            const tx = transactions[paymentIndex];
+
+            const paid = Number(document.getElementById("pPaid").value || 0);
+
+            // Ensure payment object exists
+            if (!tx.payment) tx.payment = {
+                method: "Cash",
+                tendered: 0,
+                change: 0
+            };
+
+            tx.payment.tendered = paid;
+
+            // Save to localStorage
+            localStorage.setItem("transactions", JSON.stringify(transactions));
+
+            // Update the table
+            renderTable();
+
+            // Close modal
+            closePaymentModal();
+
+            // Toast notification
+            const t = document.getElementById("toast");
+            t.style.display = "block";
+            setTimeout(() => t.style.display = "none", 2000);
+        }
+        renderTable();
+    </script>
 </body>
 
 </html>

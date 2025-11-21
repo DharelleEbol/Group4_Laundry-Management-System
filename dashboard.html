@@ -2,240 +2,254 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/dashboard.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <script src="../../javascript/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
 </head>
 
 <body>
-  <div class="container">
+    <div class="container">
 
-    <div class="sidebar" id="sidebar">
-      <div class="company-name">Papa J's</div>
-      <a href="dashboard.html" class="menu-item active">📊 Dashboard</a>
-      <a href="pos.html" class="menu-item">📠 POS</a>
-      <a href="inventory.html" class="menu-item">🗂️ Inventory</a>
-      <a href="receipt.html" class="menu-item">🧾 Receipt Management</a>
-      <div class="logout">
-        <a href="login.html" class="menu-item">➜ Log Out</a>
-      </div>
-    </div>
+        <div class="sidebar" id="sidebar">
+            <div class="company-name">Papa J's</div>
+            <a href="dashboard.html" class="menu-item active">📊 Dashboard</a>
+            <a href="pos.html" class="menu-item">📠 POS</a>
+            <a href="inventory.html" class="menu-item">🗂️ Inventory</a>
+            <a href="receipt.html" class="menu-item">🧾 Receipt Management</a>
+            <div class="logout">
+                <a href="login.html" class="menu-item">➜ Log Out</a>
+            </div>
+        </div>
 
-    <div class="main-content" id="mainContent">
-      <div class="header">
-        <div class="header-left">
-          <button class="burger-btn" id="burgerBtn">
+        <div class="main-content" id="mainContent">
+            <div class="header">
+                <div class="header-left">
+                    <button class="burger-btn" id="burgerBtn">
             <span></span><span></span><span></span>
           </button>
-          <h1 class="dashboard-title">Dashboard</h1>
-        </div>
-        <div class="user-info">
-          <div class="user-text">
-            <div class="user-name">Account Name</div>
-            <div class="user-role">Admin</div>
-          </div>
-          <div class="user-avatar"></div>
-        </div>
-      </div>
+                    <h1 class="dashboard-title">Dashboard</h1>
+                </div>
+                <div class="user-info">
+                    <div class="user-text">
+                        <div class="user-name">Account Name</div>
+                        <div class="user-role">Admin</div>
+                    </div>
+                    <div class="user-avatar"></div>
+                </div>
+            </div>
 
-      <!-- STATS -->
-      <div class="stats-container">
-        <div class="stat-card">
-          <div class="stat-label">Total Sales</div>
-          <div class="stat-value" id="totalSales">₱0.00</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Pending Sales</div>
-          <div class="stat-value" id="totalOrders">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Items in shop</div>
-          <div class="stat-value" id="itemsInShop">-</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Overdue Items</div>
-          <div class="stat-value" id="overdueItems">-</div>
-        </div>
-      </div>
+            <!-- STATS -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-label">Total Sales</div>
+                    <div class="stat-value" id="totalSales">₱0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Pending Sales</div>
+                    <div class="stat-value" id="totalOrders">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Items in shop</div>
+                    <div class="stat-value" id="itemsInShop">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Overdue Items</div>
+                    <div class="stat-value" id="overdueItems">-</div>
+                </div>
+            </div>
 
-      <!-- CHART -->
-      <div class="chart-container">
-        <div class="chart-title">Revenue</div>
-          <div class="chart-controls">
-            <button class="chart-btn active" onclick="updateRevenue('weekly')">Weekly</button>
-            <button class="chart-btn" onclick="updateRevenue('monthly')">Monthly</button>
-            <button class="chart-btn" onclick="updateRevenue('yearly')">Yearly</button>
-          </div>
-        <canvas id="revenueChart"></canvas>
-      </div>
+            <!-- CHART -->
+            <div class="chart-container">
+                <div class="chart-title">Revenue</div>
+                <div class="chart-controls">
+                    <button class="chart-btn active" onclick="updateRevenue('weekly')">Weekly</button>
+                    <button class="chart-btn" onclick="updateRevenue('monthly')">Monthly</button>
+                    <button class="chart-btn" onclick="updateRevenue('yearly')">Yearly</button>
+                </div>
+                <canvas id="revenueChart"></canvas>
+            </div>
 
-      
 
-      <!-- TRANSACTION TABLE -->
-      <div class="table-container">
-        <div class="chart-title">Recent Transactions</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Receipt ID</th>
-              <th>Customer</th>
-              <th>Amount (₱)</th>
-              <th>Date</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="transactionsBody"></tbody>
-        </table>
-      </div>
+
+            <!-- TRANSACTION TABLE -->
+            <div class="table-container">
+                <div class="chart-title">Recent Transactions</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Receipt ID</th>
+                            <th>Customer</th>
+                            <th>Amount (₱)</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionsBody"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script>
-  // SIDEBAR TOGGLE
-    function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      const mainContent = document.getElementById("mainContent");
-      const burgerBtn = document.getElementById("burgerBtn");
+    <script>
+        // SIDEBAR TOGGLE
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            const mainContent = document.getElementById("mainContent");
+            const burgerBtn = document.getElementById("burgerBtn");
 
-      sidebar.classList.toggle("closed");
-      mainContent.classList.toggle("expanded");
-      burgerBtn.classList.toggle("active");
-    }
-
-    document.getElementById("burgerBtn").onclick = toggleSidebar;
-
-    document.addEventListener('click', function (event) {
-      const sidebar = document.getElementById('sidebar');
-      const burgerBtn = document.getElementById('burgerBtn');
-
-      if (window.innerWidth <= 768) {
-        if (!sidebar.contains(event.target) && !burgerBtn.contains(event.target)) {
-          sidebar.classList.add('closed');
-          document.getElementById('mainContent').classList.add('expanded');
-          burgerBtn.classList.remove('active');
+            sidebar.classList.toggle("closed");
+            mainContent.classList.toggle("expanded");
+            burgerBtn.classList.toggle("active");
         }
-      }
-    });
 
-    // -----------------------------
-    // FORMATTER
-    // -----------------------------
-    const peso = n => '₱' + (Number(n || 0)).toFixed(2);
+        document.getElementById("burgerBtn").onclick = toggleSidebar;
 
-    // -----------------------------
-    // LOAD DASHBOARD DATA
-    // -----------------------------
-    function loadDashboardData() {
-      const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
-      const totalSalesEl = document.getElementById('totalSales');
-      const totalOrdersEl = document.getElementById('totalOrders');
-      const itemsInShopEl = document.getElementById('itemsInShop');
-      const overdueItemsEl = document.getElementById('overdueItems');
-      const tbody = document.getElementById('transactionsBody');
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const burgerBtn = document.getElementById('burgerBtn');
 
-      tbody.innerHTML = '';
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(event.target) && !burgerBtn.contains(event.target)) {
+                    sidebar.classList.add('closed');
+                    document.getElementById('mainContent').classList.add('expanded');
+                    burgerBtn.classList.remove('active');
+                }
+            }
+        });
 
-      if (transactions.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#777;">No transactions yet</td></tr>`;
-        totalSalesEl.textContent = '₱0.00';
-        totalOrdersEl.textContent = '0';
-        itemsInShopEl.textContent = '-';
-        overdueItemsEl.textContent = '-';
-        return;
-      }
+        // -----------------------------
+        // FORMATTER
+        // -----------------------------
+        const peso = n => '₱' + (Number(n || 0)).toFixed(2);
 
-      const sorted = transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+        // -----------------------------
+        // LOAD DASHBOARD DATA
+        // -----------------------------
+        function loadDashboardData() {
+            const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+            const totalSalesEl = document.getElementById('totalSales');
+            const totalOrdersEl = document.getElementById('totalOrders');
+            const itemsInShopEl = document.getElementById('itemsInShop');
+            const overdueItemsEl = document.getElementById('overdueItems');
+            const tbody = document.getElementById('transactionsBody');
 
-      const totalSales = sorted.reduce((sum, tx) => sum + (tx.totals?.total || 0), 0);
-      totalSalesEl.textContent = peso(totalSales);
-      totalOrdersEl.textContent = sorted.length;
-      itemsInShopEl.textContent = '-';
-      overdueItemsEl.textContent = '-';
+            tbody.innerHTML = '';
 
-      sorted.slice(0, 10).forEach(tx => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
+            if (transactions.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#777;">No transactions yet</td></tr>`;
+                totalSalesEl.textContent = '₱0.00';
+                totalOrdersEl.textContent = '0';
+                itemsInShopEl.textContent = '-';
+                overdueItemsEl.textContent = '-';
+                return;
+            }
+
+            const sorted = transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            const totalSales = sorted.reduce((sum, tx) => {
+                return sum + (tx.totals && tx.totals.total ? tx.totals.total : 0);
+            }, 0);
+            totalSalesEl.textContent = peso(totalSales);
+            totalOrdersEl.textContent = sorted.length;
+            itemsInShopEl.textContent = '-';
+            overdueItemsEl.textContent = '-';
+
+            sorted.slice(0, 10).forEach(tx => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
           <td>${tx.receipt}</td>
           <td>${tx.customer?.name || 'N/A'}</td>
           <td>${peso(tx.totals?.total)}</td>
           <td>${tx.date}</td>
           <td>${tx.payment?.method ? 'Completed' : 'Pending'}</td>
         `;
-        tbody.appendChild(tr);
-      });
-    }
+                tbody.appendChild(tr);
+            });
+        }
 
-    loadDashboardData();
+        loadDashboardData();
 
-    // -----------------------------
-    // REVENUE CHART (WEEKLY / MONTHLY / YEARLY)
-    // -----------------------------
-    let revenueChart;
+        // -----------------------------
+        // REVENUE CHART (WEEKLY / MONTHLY / YEARLY)
+        // -----------------------------
+        let revenueChart;
 
-    const revenueData = {
-      weekly: {
-        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        values: [4000, 5000, 7500, 7000, 8500, 9000, 9500]
-      },
-      monthly: {
-        labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
-        values: [20000, 25000, 23000, 28000]
-      },
-      yearly: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        values: [120000, 135000, 150000, 145000, 160000, 170000,
-                180000, 175000, 165000, 155000, 140000, 130000]
-      }
-    };
+        const revenueData = {
+            weekly: {
+                labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+                values: [4000, 5000, 7500, 7000, 8500, 9000, 9500]
+            },
+            monthly: {
+                labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+                values: [20000, 25000, 23000, 28000]
+            },
+            yearly: {
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                ],
+                values: [120000, 135000, 150000, 145000, 160000, 170000,
+                    180000, 175000, 165000, 155000, 140000, 130000
+                ]
+            }
+        };
 
-    function updateRevenue(type) {
-      const data = revenueData[type];
+        function updateRevenue(type) {
+            const data = revenueData[type];
 
-      // Highlight active tab
-      document.querySelectorAll(".chart-btn").forEach(btn => btn.classList.remove("active"));
-      document.querySelector(`.chart-btn[onclick="updateRevenue('${type}')"]`).classList.add("active");
+            // Highlight active tab
+            document.querySelectorAll(".chart-btn").forEach(btn => btn.classList.remove("active"));
+            document.querySelector(`.chart-btn[onclick="updateRevenue('${type}')"]`).classList.add("active");
 
-      // Update chart data
-      revenueChart.data.labels = data.labels;
-      revenueChart.data.datasets[0].data = data.values;
-      revenueChart.update();
-    }
+            // Update chart data
+            revenueChart.data.labels = data.labels;
+            revenueChart.data.datasets[0].data = data.values;
+            revenueChart.update();
+        }
 
-    // Initialize Chart
-    const ctx = document.getElementById("revenueChart").getContext("2d");
-    revenueChart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: revenueData.weekly.labels,
-        datasets: [{
-          label: "Revenue",
-          data: revenueData.weekly.values,
-          borderColor: "#2196F3",
-          backgroundColor: "rgba(33, 150, 243, 0.2)",
-          fill: true,
-          tension: 0.4,
-          pointRadius: 5,
-          pointBackgroundColor: "#2196F3",
-          pointBorderColor: "#fff",
-          pointBorderWidth: 2,
-          pointHoverRadius: 7,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          y: { beginAtZero: true },
-          x: { grid: { display: false } }
-        },
-      }
-    });
-  </script>
+        // Initialize Chart
+        const ctx = document.getElementById("revenueChart").getContext("2d");
+        revenueChart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: revenueData.weekly.labels,
+                datasets: [{
+                    label: "Revenue",
+                    data: revenueData.weekly.values,
+                    borderColor: "#2196F3",
+                    backgroundColor: "rgba(33, 150, 243, 0.2)",
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointBackgroundColor: "#2196F3",
+                    pointBorderColor: "#fff",
+                    pointBorderWidth: 2,
+                    pointHoverRadius: 7,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+            }
+        });
+    </script>
 </body>
 
 </html>
