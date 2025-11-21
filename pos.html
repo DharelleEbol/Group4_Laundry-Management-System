@@ -298,9 +298,21 @@
     ];
 
     let cart = [];
-    let selectedExtras = [];
+    // ADD EXTRA CHARGE MODAL
+    let selectedExtras = {
+      detergent: 0,
+      softener: 0,
+      conditioner: 0
+    };
+
     let payment = { method: 'Cash', amountReceived: 0, change: 0 };
     let selectedService = null;
+
+    function resetExtras() {
+      selectedExtras.detergent = 0;
+      selectedExtras.softener = 0;
+      selectedExtras.conditioner = 0;
+    }
 
     function nextReceipt() {
       const last = Number(localStorage.getItem('lastReceiptId') || '1200');
@@ -311,7 +323,14 @@
 
     function calcTotals() {
       const subtotal = cart.reduce((s, i) => s + i.rate * i.kg, 0);
-      const extrasAmount = selectedExtras.reduce((s, e) => s + e.price, 0);
+
+      // EXTRA AMOUNT
+      let extrasAmount = 0;
+      extraCharges.forEach(extra => {
+        const qty = selectedExtras[extra.id] || 0;
+        extrasAmount += qty * extra.price;
+      });
+
       const total = subtotal + extrasAmount;
       
       document.getElementById('subtotal').textContent = peso(subtotal);
@@ -358,32 +377,47 @@
     function renderExtras() {
       const list = document.getElementById('extrasList');
       list.innerHTML = '';
+
       extraCharges.forEach(extra => {
-        const isSelected = selectedExtras.some(e => e.id === extra.id);
+        const qty = selectedExtras[extra.id] || 0;
+
         const div = document.createElement('div');
-        div.className = 'extra-item' + (isSelected ? ' selected' : '');
+        div.className = 'extra-item';
         div.innerHTML = `
           <div class="extra-info">
-            <div class="extra-checkbox">${isSelected ? '✓' : ''}</div>
-            <div>
-              <div class="extra-name">${extra.name}</div>
-            </div>
+            <div class="extra-name">${extra.name}</div>
           </div>
+
+          <div class="extra-qty-control" style="display:flex;align-items:center;gap:8px;">
+            <button class="qty-btn" data-id="${extra.id}" data-action="minus"
+              style="width:32px;height:32px;font-size:20px;border:1px solid #d1d5db;border-radius:6px;cursor:pointer;line-height:1;">−</button>
+
+            <span class="qty-display" style="min-width:20px;text-align:center;font-weight:600;">${qty}</span>
+
+            <button class="qty-btn" data-id="${extra.id}" data-action="plus"
+              style="width:32px;height:32px;font-size:20px;border:1px solid #d1d5db;border-radius:6px;cursor:pointer;line-height:1;">+</button>
+          </div>
+
           <div class="extra-price">${peso(extra.price)}</div>
         `;
-        div.addEventListener('click', () => toggleExtra(extra));
+
         list.appendChild(div);
       });
-    }
 
-    function toggleExtra(extra) {
-      const index = selectedExtras.findIndex(e => e.id === extra.id);
-      if (index > -1) {
-        selectedExtras.splice(index, 1);
-      } else {
-        selectedExtras.push(extra);
-      }
-      renderExtras();
+      document.querySelectorAll('.qty-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-id');
+          const action = btn.getAttribute('data-action');
+
+          if (action === 'plus') {
+            selectedExtras[id] = (selectedExtras[id] || 0) + 1;
+          } else if (action === 'minus' && (selectedExtras[id] || 0) > 0) {
+            selectedExtras[id] = selectedExtras[id] - 1;
+          }
+
+          renderExtras();
+        });
+      });
     }
 
     const addServiceBackdrop = document.getElementById('addServiceBackdrop');
@@ -445,7 +479,6 @@
       document.getElementById('newCustPhone').value = "";
     };
 
-    // Extras Modal
     const extrasBackdrop = document.getElementById('extrasBackdrop');
 
     document.getElementById('openExtrasModal').onclick = () => {
@@ -460,13 +493,15 @@
     document.getElementById('confirmExtras').onclick = () => {
       extrasBackdrop.style.display = 'none';
       calcTotals();
-      const extrasText = selectedExtras.length > 0 
-        ? `Extras (${selectedExtras.length})` 
+
+      const totalQty = Object.values(selectedExtras).reduce((a, b) => a + b, 0);
+      const extrasText = totalQty > 0 
+        ? `Extras (${totalQty})` 
         : 'Add Extra Charge';
       document.getElementById('openExtrasModal').textContent = extrasText;
     };
 
-    // Payment Modal
+    // PAYMENT MODAL
     const paymentBackdrop = document.getElementById('paymentBackdrop');
     const cashFields = document.getElementById('cashFields');
     const changeDisplay = document.getElementById('changeDisplay');
@@ -556,7 +591,7 @@
                               document.getElementById('custAddress').value.trim() !== '' ||
                               document.getElementById('custPhone').value.trim() !== '' ||
                               document.getElementById('customerSearch').value.trim() !== '';
-      const hasExtras = selectedExtras.length > 0;
+      const hasExtras = Object.values(selectedExtras).some(q => q > 0);
       const hasData = hasCartItems || hasCustomerData || hasExtras;
       
       const modalHeader = document.getElementById('clearModalHeader');
@@ -603,7 +638,7 @@
     
     function clearAllData() {
       cart = [];
-      selectedExtras = [];
+      resetExtras();
       payment = { method: 'Cash', amountReceived: 0, change: 0 };
       
       document.getElementById('custName').value = '';
@@ -644,6 +679,20 @@
       }
       
       const totals = calcTotals();
+
+      const extrasArray = extraCharges
+        .map(extra => {
+          const qty = selectedExtras[extra.id] || 0;
+          if (qty <= 0) return null;
+          return {
+            id: extra.id,
+            name: extra.name,
+            qty,
+            price: extra.price
+          };
+        })
+        .filter(Boolean);
+
       const tx = {
         receipt: document.getElementById('receiptId').value,
         date: document.getElementById('dateInput').value,
@@ -653,14 +702,13 @@
           phone: document.getElementById('custPhone').value
         },
         items: cart,
-        extras: selectedExtras,
+        extras: extrasArray,
         totals: { 
           subtotal: totals.subtotal, 
           extras: totals.extrasAmount, 
           total: totals.total 
         },
         payment,
-        // Store these at transaction level for easy access
         amountReceived: payment.amountReceived,
         change: payment.change
       };
@@ -674,7 +722,7 @@
       setTimeout(() => t.style.display = 'none', 2000);
       
       cart = [];
-      selectedExtras = [];
+      resetExtras();
       payment = { method: 'Cash', amountReceived: 0, change: 0 };
       
       document.getElementById('openPaymentModal').textContent = 'Payment method';
