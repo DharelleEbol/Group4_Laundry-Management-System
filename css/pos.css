@@ -733,6 +733,7 @@ body {
         flex-direction: column;
     }
 }
+
 /* COLLAPSIBLE CUSTOMER SECTION */
 .collapsible-box {
     padding: 0;
@@ -766,4 +767,24 @@ body {
 
 #custCollapseIcon {
     transition: transform 0.25s ease;
+}
+
+/* EXTRAS MODAL ALIGNMENT */
+
+.extra-item {
+    display: grid !important;
+    grid-template-columns: 2fr 1fr auto;
+    align-items: center;
+    gap: 12px;
+}
+
+.extra-qty-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.extra-price {
+    min-width: 60px;
+    text-align: right;
 }
