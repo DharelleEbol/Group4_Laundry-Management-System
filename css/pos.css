@@ -201,20 +201,10 @@ body {
     position: relative;
 }
 
-.customer-search-row::before {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 14px;
-    color: #9ca3af;
-    z-index: 1;
-}
-
 .customer-search-row .input {
     flex: 1;
     margin-bottom: 0;
-    padding-left: 38px;
+    padding-left: 12px !important;
     background: white;
 }
 
@@ -352,6 +342,10 @@ body {
     border-top: 1px solid #e5e7eb;
 }
 
+.extras-row {
+    color: #6b7280;
+}
+
 .total-row {
     font-size: 16px;
     font-weight: 700;
@@ -360,7 +354,17 @@ body {
     margin-bottom: 12px;
 }
 
-/* DEFAULT BUTTONS */
+/* CASH & CHANGE ROWS */
+.cash-received-row,
+.change-row {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1976D2;
+    padding: 6px 0;
+    border-top: 1px solid #e5e7eb;
+}
+
+/* BUTTONS */
 .btn {
     padding: 6px 12px;
     border-radius: 6px;
@@ -385,18 +389,20 @@ body {
     background: #fecaca;
 }
 
-/* PAYMENT + CLEAR BUTTONS */
-.payment-clear-wrapper {
+/* PAYMENT + EXTRAS BUTTONS */
+.payment-extras-wrapper {
     display: flex;
     gap: 8px;
     margin-bottom: 10px;
+    margin-top: 12px;
 }
 
-.modal-payment-btn {
+.modal-payment-btn,
+.modal-extras-btn {
     flex: 1;
     padding: 11px;
     background: #BFDBFE;
-    color:black;
+    color: black;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -405,32 +411,20 @@ body {
     font-weight: 700;
 }
 
-.modal-payment-btn:hover {
+.modal-payment-btn:hover,
+.modal-extras-btn:hover {
     background: #93C5FD;
 }
 
-.modal-clear-btn {
-    flex: 1;
-    padding: 11px;
-    color:black;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s ease;
-    font-size: 14px;
-}
-
-.modal-clear-btn:hover {
-    background: #c1c5c8;
-}
-
-/* COMPLETE BUTTON */
-.complete-wrapper {
+/* ACTION BUTTONS WRAPPER */
+.action-buttons-wrapper {
+    display: flex;
+    gap: 8px;
     width: 100%;
 }
 
 .complete-btn {
-    width: 100%;
+    flex: 1;
     padding: 12px;
     background: #1976D2;
     color: white;
@@ -444,6 +438,22 @@ body {
 
 .complete-btn:hover {
     background: #1565C0;
+}
+
+.clear-btn {
+    padding: 12px 24px;
+    background: #e5e7eb;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.clear-btn:hover {
+    background: #d1d5db;
 }
 
 /* MODAL BACKDROP */
@@ -475,6 +485,21 @@ body {
     font-weight: 700;
     padding: 16px 20px;
     border-bottom: 1px solid #e5e7eb;
+    color: #000;
+    position: relative;
+}
+
+.modal-exit {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    cursor: pointer;
+    color: #666;
+}
+
+.modal-exit:hover {
     color: #000;
 }
 
@@ -514,6 +539,102 @@ body {
     color: #374151;
 }
 
+/* CASH PAYMENT FIELDS */
+.cash-fields {
+    display: none;
+    margin-top: 12px;
+}
+
+.cash-fields.show {
+    display: block;
+}
+
+.change-display {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 12px;
+    text-align: center;
+    display: none;
+}
+
+.change-display .label {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.change-display .amount {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0369a1;
+}
+
+/* EXTRAS LIST */
+.extras-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.extra-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.extra-item:hover {
+    border-color: #1976D2;
+    background: #f0f9ff;
+}
+
+.extra-item.selected {
+    border-color: #1976D2;
+    background: #dbeafe;
+}
+
+.extra-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.extra-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d1d5db;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 12px;
+}
+
+.extra-item.selected .extra-checkbox {
+    background: #1976D2;
+    border-color: #1976D2;
+    color: white;
+}
+
+.extra-name {
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+}
+
+.extra-price {
+    font-weight: 600;
+    color: #1976D2;
+    font-size: 14px;
+}
+
 .modal-actions {
     display: flex;
     justify-content: flex-end;
@@ -524,10 +645,14 @@ body {
 }
 
 .modal-actions .modal-clear-btn {
-    flex: initial;
     padding: 10px 24px;
     background: #f3f4f6;
     color: #000;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    font-size: 14px;
 }
 
 .modal-actions .modal-clear-btn:hover {
@@ -566,6 +691,12 @@ body {
     font-weight: 600;
 }
 
+.toast-clear {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fbbf24;
+}
+
 /* RESPONSIVE */
 @media (max-width: 1024px) {
     .pos-container {
@@ -587,4 +718,52 @@ body {
     .service-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+    
+    .payment-extras-wrapper {
+        flex-wrap: wrap;
+    }
+    
+    .modal-extras-btn,
+    .modal-payment-btn {
+        flex: 1 1 calc(50% - 4px);
+        min-width: calc(50% - 4px);
+    }
+
+    .action-buttons-wrapper {
+        flex-direction: column;
+    }
+}
+/* COLLAPSIBLE CUSTOMER SECTION */
+.collapsible-box {
+    padding: 0;
+    overflow: hidden;
+}
+
+.collapse-header {
+    padding: 16px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    background: #eef5ff;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+.collapse-header:hover {
+    background: #e0ecff;
+}
+
+.collapse-content {
+    padding: 20px;
+    border-top: 1px solid #dbe2ef;
+}
+
+.collapse-content.hidden {
+    display: none;
+}
+
+#custCollapseIcon {
+    transition: transform 0.25s ease;
 }

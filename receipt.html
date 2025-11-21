@@ -75,6 +75,8 @@
                   <th>Receipt</th>
                   <th>Customer</th>
                   <th>Phone</th>
+                  <th>Amount Received</th>
+                  <th>Change</th>
                   <th>Total</th>
                   <th>Paid</th>
                   <th>Balance</th>
@@ -235,6 +237,8 @@
           <td>${tx.receipt}</td>
           <td>${tx.customer.name}</td>
           <td>${tx.customer.phone || ''}</td>
+          <td>${peso(tx.amountReceived)}</td>
+          <td>${peso(tx.change)}</td>
           <td>${peso(total)}</td>
           <td>${peso(paid)}</td>
           <td>${peso(balance)}</td>

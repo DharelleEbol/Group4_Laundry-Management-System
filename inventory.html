@@ -65,6 +65,8 @@
                   <th>Item</th>
                   <th>Qty</th>
                   <th>Price</th>
+                  <th>Amount Received</th>
+                  <th>Change</th>
                   <th>Status</th>
                   <th>Due Date</th>
                   <th>Action</th>
@@ -156,6 +158,8 @@
             <td>${item.name}</td>
             <td>${item.kg}</td>
             <td>${peso(item.rate * item.kg)}</td>
+            <td>${peso(tx.amountReceived)}</td>
+            <td>${peso(tx.change)}</td>
             <td><span class="badge ${itemStatus.toLowerCase()}">${itemStatus}</span></td>
             <td>${tx.date}</td>
             <td>

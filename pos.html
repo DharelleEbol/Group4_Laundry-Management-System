@@ -16,7 +16,7 @@
     <div class="sidebar" id="sidebar">
       <div class="company-name">Papa J's</div>
       <a href="dashboard.html" class="menu-item">📊 Dashboard</a>
-      <a href="pos.html" class="menu-item active">📠 POS</a>
+      <a href="pos.html" class="menu-item active">🛒 POS</a>
       <a href="inventory.html" class="menu-item">🗂️ Inventory</a>
       <a href="receipt.html" class="menu-item">🧾 Receipt Management</a>
       <div class="logout">
@@ -59,22 +59,28 @@
         <!-- RIGHT -->
         <div class="pos-right">
           <div class="pos-right-container">
-            <div class="box">
-              <div class="customer-search-row">
-                <input class="input" id="customerSearch" placeholder="Search Customer..." />
-                <button class="btn" id="openCustomerModal">Add customer</button>
+            <div class="box collapsible-box">
+              <div class="collapse-header" id="custCollapseHeader">
+                  <span>Customer Information</span>
+                  <span id="custCollapseIcon">▼</span>
               </div>
 
-              <div class="receipt-row">
-                <input class="input" id="receiptId" placeholder="RCPT-0000" readonly />
-                <input class="input" id="dateInput" type="date" />
+              <div class="collapse-content" id="custCollapseContent">
+                  <div class="customer-search-row">
+                      <input class="input" id="customerSearch" placeholder="Search Customer..." />
+                      <button class="btn" id="openCustomerModal">Add customer</button>
+                  </div>
+
+                  <div class="receipt-row">
+                      <input class="input" id="receiptId" placeholder="RCPT-0000" readonly />
+                      <input class="input" id="dateInput" type="date" />
+                  </div>
+
+                  <input class="input" id="custName" placeholder="Name" />
+                  <input class="input" id="custAddress" placeholder="Address" />
+                  <input class="input" id="custPhone" placeholder="Phone Number" />
               </div>
-
-              <input class="input" id="custName" placeholder="Name" />
-              <input class="input" id="custAddress" placeholder="Address" />
-              <input class="input" id="custPhone" placeholder="Phone Number" />
-            </div>
-
+          </div>
             <div class="box cart-box">
               <div class="table-wrapper">
                 <table class="table" id="cartTable">
@@ -97,19 +103,37 @@
                   <div id="subtotal">₱0.00</div>
                 </div>
 
+                <div class="kv extras-row">
+                  <div>Extra Charges</div>
+                  <div id="extrasTotal">₱0.00</div>
+                </div>
+
                 <div class="kv total-row">
                   <div>Total Payment</div>
                   <div id="total">₱0.00</div>
                 </div>
 
-                <!-- PAYMENT + CLEAR BUTTONS-->
-                <div class="payment-clear-wrapper">
-                  <button class="modal-payment-btn" id="openPaymentModal">Payment method</button>
-                  <button class="modal-clear-btn" id="clearBtn">Clear</button>
+                <!-- CASH RECEIVED + CHANGE DISPLAY -->
+                <div class="kv cash-received-row" id="cashReceivedRow" style="display:none;">
+                  <div>Cash Received</div>
+                  <div id="cashReceivedDisplay">₱0.00</div>
                 </div>
 
-                <div class="complete-wrapper">
+                <div class="kv change-row" id="changeRow" style="display:none;">
+                  <div>Change</div>
+                  <div id="changeDisplayMain">₱0.00</div>
+                </div>
+
+                <!-- PAYMENT + EXTRAS BUTTONS-->
+                <div class="payment-extras-wrapper">
+                  <button class="modal-extras-btn" id="openExtrasModal">Add Extra Charge</button>
+                  <button class="modal-payment-btn" id="openPaymentModal">Payment method</button>
+                </div>
+
+                <!-- COMPLETE + CLEAR BUTTONS -->
+                <div class="action-buttons-wrapper">
                   <button class="complete-btn" id="saveBtn">Complete and Save Transaction</button>
+                  <button class="clear-btn" id="clearBtn">Clear</button>
                 </div>
               </div>
             </div>
@@ -118,11 +142,14 @@
       </div>
     </div>
   </div>
-
+  
   <!--SERVICE MODAL -->
   <div class="modal-backdrop" id="addServiceBackdrop">
     <div class="modal add-service-modal">
-      <div class="modal-header">Add Service</div>
+      <div class="modal-header">
+        Add Service
+        <span class="modal-exit" onclick="addServiceBackdrop.style.display='none'">✖</span>
+      </div>
 
       <div class="modal-body modal-center">
         <p class="muted">
@@ -142,27 +169,52 @@
   </div>
 
   <!-- ADD CUSTOMER MODAL -->
-<div class="modal-backdrop" id="customerBackdrop">
-  <div class="modal">
-    <div class="modal-header">Add Customer</div>
+  <div class="modal-backdrop" id="customerBackdrop">
+    <div class="modal">
+      <div class="modal-header">
+        Add Customer
+        <span class="modal-exit" onclick="customerBackdrop.style.display='none'">✖</span>
+      </div>
 
-    <div class="modal-body">
-      <input class="input" id="newCustName" placeholder="Customer Name" />
-      <input class="input" id="newCustAddress" placeholder="Address" />
-      <input class="input" id="newCustPhone" placeholder="Phone Number" />
-    </div>
+      <div class="modal-body">
+        <input class="input" id="newCustName" placeholder="Customer Name" />
+        <input class="input" id="newCustAddress" placeholder="Address" />
+        <input class="input" id="newCustPhone" placeholder="Phone Number" />
+      </div>
 
-    <div class="modal-actions">
-      <button class="modal-clear-btn" id="cancelCustomer">Cancel</button>
-      <button class="modal-confirm-btn" id="saveCustomer">Add Customer</button>
+      <div class="modal-actions">
+        <button class="modal-clear-btn" id="cancelCustomer">Cancel</button>
+        <button class="modal-confirm-btn" id="saveCustomer">Add Customer</button>
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- EXTRAS MODAL -->
+  <div class="modal-backdrop" id="extrasBackdrop">
+    <div class="modal">
+      <div class="modal-header">
+        Add Extra Charges
+        <span class="modal-exit" onclick="extrasBackdrop.style.display='none'">✖</span>
+      </div>
+
+      <div class="modal-body">
+        <div class="extras-list" id="extrasList"></div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-clear-btn" id="cancelExtras">Cancel</button>
+        <button class="modal-confirm-btn" id="confirmExtras">Apply</button>
+      </div>
+    </div>
+  </div>
 
   <!-- PAYMENT MODAL -->
   <div class="modal-backdrop" id="paymentBackdrop">
     <div class="modal">
-      <div class="modal-header">Payment</div>
+      <div class="modal-header">
+        Payment
+        <span class="modal-exit" onclick="paymentBackdrop.style.display='none'">✖</span>
+      </div>
 
       <div class="modal-body">
         <div class="kv">
@@ -175,6 +227,16 @@
           <option value="Cash">Cash</option>
           <option value="Paypal">Paypal</option>
         </select>
+
+        <div class="cash-fields" id="cashFields">
+          <label class="payment-label">Amount Received</label>
+          <input class="input" id="amountReceived" type="number" min="0" step="0.01" placeholder="Enter amount received" />
+          
+          <div class="change-display" id="changeDisplay">
+            <div class="label">Change</div>
+            <div class="amount" id="changeAmount">₱0.00</div>
+          </div>
+        </div>
       </div>
 
       <div class="modal-actions">
@@ -187,7 +249,10 @@
   <!-- CLEAR CONFIRMATION MODAL -->
   <div class="modal-backdrop" id="clearConfirmBackdrop">
     <div class="modal">
-      <div class="modal-header" id="clearModalHeader">Clear Transaction</div>
+      <div class="modal-header" id="clearModalHeader">
+        Clear Transaction
+        <span class="modal-exit" onclick="clearConfirmBackdrop.style.display='none'">✖</span>
+      </div>
 
       <div class="modal-body">
         <p style="margin: 0; font-size: 14px; color: #374151;" id="clearModalMessage">
@@ -226,8 +291,15 @@
       { name: 'Blanket', rate: 30.00, emoji: '🧣' }
     ];
 
+    const extraCharges = [
+      {id: 'detergent', name: 'Extra Detergent Powder', price: 15.00},
+      {id: 'softener', name: 'Extra Fabric Softener', price: 20.00},
+      {id: 'conditioner', name: 'Extra Fabric Conditioner', price: 18.00}
+    ];
+
     let cart = [];
-    let payment = { method: null };
+    let selectedExtras = [];
+    let payment = { method: 'Cash', amountReceived: 0, change: 0 };
     let selectedService = null;
 
     function nextReceipt() {
@@ -239,10 +311,15 @@
 
     function calcTotals() {
       const subtotal = cart.reduce((s, i) => s + i.rate * i.kg, 0);
+      const extrasAmount = selectedExtras.reduce((s, e) => s + e.price, 0);
+      const total = subtotal + extrasAmount;
+      
       document.getElementById('subtotal').textContent = peso(subtotal);
-      document.getElementById('total').textContent = peso(subtotal);
-      document.getElementById('payTotal').textContent = peso(subtotal);
-      return subtotal;
+      document.getElementById('extrasTotal').textContent = peso(extrasAmount);
+      document.getElementById('total').textContent = peso(total);
+      document.getElementById('payTotal').textContent = peso(total);
+      
+      return { subtotal, extrasAmount, total };
     }
 
     function renderServices(list = services) {
@@ -276,6 +353,37 @@
         body.appendChild(tr);
       });
       calcTotals();
+    }
+
+    function renderExtras() {
+      const list = document.getElementById('extrasList');
+      list.innerHTML = '';
+      extraCharges.forEach(extra => {
+        const isSelected = selectedExtras.some(e => e.id === extra.id);
+        const div = document.createElement('div');
+        div.className = 'extra-item' + (isSelected ? ' selected' : '');
+        div.innerHTML = `
+          <div class="extra-info">
+            <div class="extra-checkbox">${isSelected ? '✓' : ''}</div>
+            <div>
+              <div class="extra-name">${extra.name}</div>
+            </div>
+          </div>
+          <div class="extra-price">${peso(extra.price)}</div>
+        `;
+        div.addEventListener('click', () => toggleExtra(extra));
+        list.appendChild(div);
+      });
+    }
+
+    function toggleExtra(extra) {
+      const index = selectedExtras.findIndex(e => e.id === extra.id);
+      if (index > -1) {
+        selectedExtras.splice(index, 1);
+      } else {
+        selectedExtras.push(extra);
+      }
+      renderExtras();
     }
 
     const addServiceBackdrop = document.getElementById('addServiceBackdrop');
@@ -337,33 +445,119 @@
       document.getElementById('newCustPhone').value = "";
     };
 
+    // Extras Modal
+    const extrasBackdrop = document.getElementById('extrasBackdrop');
+
+    document.getElementById('openExtrasModal').onclick = () => {
+      renderExtras();
+      extrasBackdrop.style.display = 'flex';
+    };
+
+    document.getElementById('cancelExtras').onclick = () => {
+      extrasBackdrop.style.display = 'none';
+    };
+
+    document.getElementById('confirmExtras').onclick = () => {
+      extrasBackdrop.style.display = 'none';
+      calcTotals();
+      const extrasText = selectedExtras.length > 0 
+        ? `Extras (${selectedExtras.length})` 
+        : 'Add Extra Charge';
+      document.getElementById('openExtrasModal').textContent = extrasText;
+    };
+
+    // Payment Modal
+    const paymentBackdrop = document.getElementById('paymentBackdrop');
+    const cashFields = document.getElementById('cashFields');
+    const changeDisplay = document.getElementById('changeDisplay');
+    const paymentMethodSelect = document.getElementById('paymentMethod');
+    const amountReceivedInput = document.getElementById('amountReceived');
+
+    paymentMethodSelect.addEventListener('change', () => {
+      if (paymentMethodSelect.value === 'Cash') {
+        cashFields.classList.add('show');
+      } else {
+        cashFields.classList.remove('show');
+        changeDisplay.style.display = 'none';
+      }
+    });
+
+    amountReceivedInput.addEventListener('input', () => {
+      const totals = calcTotals();
+      const received = parseFloat(amountReceivedInput.value) || 0;
+      const change = received - totals.total;
+      
+      if (received >= totals.total) {
+        changeDisplay.style.display = 'block';
+        document.getElementById('changeAmount').textContent = peso(change);
+      } else {
+        changeDisplay.style.display = 'none';
+      }
+    });
 
     document.getElementById('openPaymentModal').onclick = () => {
       calcTotals();
-      document.getElementById('paymentBackdrop').style.display = 'flex';
+      paymentBackdrop.style.display = 'flex';
+      if (paymentMethodSelect.value === 'Cash') {
+        cashFields.classList.add('show');
+      }
     };
 
     document.getElementById('clearPayment').onclick = () => {
       document.getElementById('paymentMethod').value = 'Cash';
+      document.getElementById('amountReceived').value = '';
+      changeDisplay.style.display = 'none';
+      cashFields.classList.add('show');
     };
 
     document.getElementById('confirmPayment').onclick = () => {
-      payment.method = document.getElementById('paymentMethod').value;
-      document.getElementById('openPaymentModal').textContent = `Payment: ${payment.method}`;
-      document.getElementById('paymentBackdrop').style.display = 'none';
+      const method = paymentMethodSelect.value;
+      const totals = calcTotals();
+      
+      if (method === 'Cash') {
+        const received = parseFloat(amountReceivedInput.value) || 0;
+        if (received < totals.total) {
+          alert('Amount received is less than total payment!');
+          return;
+        }
+        payment.method = method;
+        payment.amountReceived = received;
+        payment.change = received - totals.total;
+
+        // UPDATE MAIN SCREEN
+        document.getElementById('cashReceivedRow').style.display = "flex";
+        document.getElementById('changeRow').style.display = "flex";
+        document.getElementById('cashReceivedDisplay').textContent = peso(received);
+        document.getElementById('changeDisplayMain').textContent = peso(payment.change);
+
+        document.getElementById('openPaymentModal').textContent = `Payment: Cash (${peso(received)})`;
+
+      } else {
+        payment.method = method;
+        payment.amountReceived = totals.total;
+        payment.change = 0;
+
+        // HIDE CASH/CHANGE ON MAIN SCREEN
+        document.getElementById('cashReceivedRow').style.display = "none";
+        document.getElementById('changeRow').style.display = "none";
+
+        document.getElementById('openPaymentModal').textContent = `Payment: ${method}`;
+      }
+      
+      paymentBackdrop.style.display = 'none';
     };
 
     // Clear button functionality
     const clearConfirmBackdrop = document.getElementById('clearConfirmBackdrop');
     
     document.getElementById('clearBtn').onclick = () => {
-      // Check if there's any data to clear
       const hasCartItems = cart.length > 0;
       const hasCustomerData = document.getElementById('custName').value.trim() !== '' ||
                               document.getElementById('custAddress').value.trim() !== '' ||
                               document.getElementById('custPhone').value.trim() !== '' ||
                               document.getElementById('customerSearch').value.trim() !== '';
-      const hasData = hasCartItems || hasCustomerData;
+      const hasExtras = selectedExtras.length > 0;
+      const hasData = hasCartItems || hasCustomerData || hasExtras;
       
       const modalHeader = document.getElementById('clearModalHeader');
       const modalMessage = document.getElementById('clearModalMessage');
@@ -372,7 +566,6 @@
       clearConfirmBackdrop.style.display = 'flex';
       
       if (hasData) {
-        // Show confirmation dialog
         modalHeader.textContent = 'Clear Transaction';
         modalMessage.textContent = 'Are you sure you want to clear all transaction data? This action cannot be undone.';
         modalActions.style.display = 'flex';
@@ -381,7 +574,6 @@
           <button class="modal-confirm-btn" id="confirmClear">Yes, Clear</button>
         `;
         
-        // Re-attach event listeners after creating new buttons
         setTimeout(() => {
           document.getElementById('cancelClear').onclick = () => {
             clearConfirmBackdrop.style.display = 'none';
@@ -392,7 +584,6 @@
           };
         }, 0);
       } else {
-        // Show "no data" message
         modalHeader.textContent = 'No Data';
         modalMessage.textContent = 'There is no data to be cleared.';
         modalActions.style.display = 'flex';
@@ -411,29 +602,30 @@
     };
     
     function clearAllData() {
-      // Clear all transaction data
       cart = [];
-      payment = { method: null };
+      selectedExtras = [];
+      payment = { method: 'Cash', amountReceived: 0, change: 0 };
       
-      // Reset customer fields
       document.getElementById('custName').value = '';
       document.getElementById('custAddress').value = '';
       document.getElementById('custPhone').value = '';
       document.getElementById('customerSearch').value = '';
       
-      // Reset payment button text
       document.getElementById('openPaymentModal').textContent = 'Payment method';
+      document.getElementById('openExtrasModal').textContent = 'Add Extra Charge';
       
-      // Reset payment method
       document.getElementById('paymentMethod').value = 'Cash';
+      document.getElementById('amountReceived').value = '';
+      changeDisplay.style.display = 'none';
+
+      // HIDE CASH/CHANGE FIELDS
+      document.getElementById('cashReceivedRow').style.display = 'none';
+      document.getElementById('changeRow').style.display = 'none';
       
-      // Re-render cart
       renderCart();
       
-      // Close modal
       clearConfirmBackdrop.style.display = 'none';
       
-      // Show success toast
       const clearToast = document.getElementById('clearToast');
       clearToast.style.display = 'block';
       setTimeout(() => clearToast.style.display = 'none', 2000);
@@ -445,7 +637,13 @@
         alert('Please add items and customer.');
         return;
       }
-      const total = calcTotals();
+      
+      if (!payment.method) {
+        alert('Please select a payment method.');
+        return;
+      }
+      
+      const totals = calcTotals();
       const tx = {
         receipt: document.getElementById('receiptId').value,
         date: document.getElementById('dateInput').value,
@@ -455,16 +653,37 @@
           phone: document.getElementById('custPhone').value
         },
         items: cart,
-        totals: { subtotal: total, extras: 0, total },
-        payment
+        extras: selectedExtras,
+        totals: { 
+          subtotal: totals.subtotal, 
+          extras: totals.extrasAmount, 
+          total: totals.total 
+        },
+        payment,
+        // Store these at transaction level for easy access
+        amountReceived: payment.amountReceived,
+        change: payment.change
       };
+      
       const list = JSON.parse(localStorage.getItem('transactions') || '[]');
       list.push(tx);
       localStorage.setItem('transactions', JSON.stringify(list));
+      
       const t = document.getElementById('toast');
       t.style.display = 'block';
       setTimeout(() => t.style.display = 'none', 2000);
+      
       cart = [];
+      selectedExtras = [];
+      payment = { method: 'Cash', amountReceived: 0, change: 0 };
+      
+      document.getElementById('openPaymentModal').textContent = 'Payment method';
+      document.getElementById('openExtrasModal').textContent = 'Add Extra Charge';
+
+      // HIDE CASH/CHANGE FIELDS
+      document.getElementById('cashReceivedRow').style.display = 'none';
+      document.getElementById('changeRow').style.display = 'none';
+      
       renderCart();
       document.getElementById('receiptId').value = nextReceipt();
     };
@@ -481,7 +700,19 @@
       renderServices();
       document.getElementById('receiptId').value = nextReceipt();
       document.getElementById('dateInput').valueAsDate = new Date();
+      cashFields.classList.add('show');
     })();
+
+    // COLLAPSE CUSTOMER SECTION
+    const custHeader = document.getElementById("custCollapseHeader");
+    const custContent = document.getElementById("custCollapseContent");
+    const custIcon = document.getElementById("custCollapseIcon");
+
+    custHeader.addEventListener("click", () => {
+        const isHidden = custContent.classList.toggle("hidden");
+        custIcon.style.transform = isHidden ? "rotate(-90deg)" : "rotate(0deg)";
+    });
+
   </script>
 </body>
 
